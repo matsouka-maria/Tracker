@@ -275,6 +275,17 @@
     text-decoration-color: var(--text-faint);
   }
 
+  .course-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--text-faint);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .course-link:hover {
+    color: var(--row-accent);
+    border-color: var(--row-accent);
+  }
+
   .reset-btn {
     margin-top: 16px;
     background: none;
@@ -321,10 +332,39 @@ const DATA = {
     color: "var(--codedex)",
     icon: "🧩",
     categories: [
-      { title: "Python & Data", color: "var(--codedex)", courses: ["Python (Beginner)", "Intermediate Python", "Pandas", "NumPy", "Matplotlib", "Machine Learning", "GenAI", "SQL"] },
-      { title: "Web Development", color: "var(--codedex-2)", courses: ["HTML", "CSS", "JavaScript", "Intermediate JavaScript", "React", "Node.js", "p5.js"] },
-      { title: "Tools & Fundamentals", color: "var(--codedex-3)", courses: ["Command Line", "Git & GitHub", "GitHub Copilot", "Data Structures & Algorithms", "UI/UX Design"] },
-      { title: "Other Languages & Game Dev", color: "var(--codedex-4)", courses: ["C#", "C++", "Java", "Lua", "Phaser"] }
+      { title: "Python & Data", color: "var(--codedex)", courses: [
+        { name: "Python (Beginner)", url: "https://www.codedex.io/python" },
+        { name: "Intermediate Python", url: "https://www.codedex.io/intermediate-python" },
+        { name: "Pandas", url: "https://www.codedex.io/pandas" },
+        { name: "NumPy", url: "https://www.codedex.io/numpy" },
+        { name: "Matplotlib", url: "https://www.codedex.io/matplotlib" },
+        { name: "Machine Learning", url: "https://www.codedex.io/machine-learning" },
+        { name: "GenAI", url: "https://www.codedex.io/gen-ai" },
+        { name: "SQL", url: "https://www.codedex.io/sql" }
+      ] },
+      { title: "Web Development", color: "var(--codedex-2)", courses: [
+        { name: "HTML", url: "https://www.codedex.io/html" },
+        { name: "CSS", url: "https://www.codedex.io/css" },
+        { name: "JavaScript", url: "https://www.codedex.io/javascript" },
+        { name: "Intermediate JavaScript", url: "https://www.codedex.io/intermediate-javascript" },
+        { name: "React", url: "https://www.codedex.io/react" },
+        { name: "Node.js", url: "https://www.codedex.io/nodejs" },
+        { name: "p5.js", url: "https://www.codedex.io/p5js" }
+      ] },
+      { title: "Tools & Fundamentals", color: "var(--codedex-3)", courses: [
+        { name: "Command Line", url: "https://www.codedex.io/command-line" },
+        { name: "Git & GitHub", url: "https://www.codedex.io/git-github" },
+        { name: "GitHub Copilot", url: "https://www.codedex.io/github-copilot" },
+        { name: "Data Structures & Algorithms", url: "https://www.codedex.io/data-structures-and-algorithms" },
+        { name: "UI/UX Design", url: "https://www.codedex.io/ui-ux" }
+      ] },
+      { title: "Other Languages & Game Dev", color: "var(--codedex-4)", courses: [
+        { name: "C#", url: "https://www.codedex.io/c-sharp" },
+        { name: "C++", url: "https://www.codedex.io/c-plus-plus" },
+        { name: "Java", url: "https://www.codedex.io/java" },
+        { name: "Lua", url: "https://www.codedex.io/lua" },
+        { name: "Phaser", url: "https://www.codedex.io/phaser" }
+      ] }
     ]
   },
   harvard: {
@@ -332,7 +372,14 @@ const DATA = {
     color: "var(--harvard)",
     icon: "🎓",
     categories: [
-      { title: "CS50 Series", color: "var(--harvard)", courses: ["CS50", "Python (CS50P)", "Web (CS50W)", "SQL (CS50 SQL)", "AI (CS50 AI)", "Cybersecurity (CS50 Cyber)"] }
+      { title: "CS50 Series", color: "var(--harvard)", courses: [
+        { name: "CS50", url: "https://cs50.harvard.edu/x/" },
+        { name: "Python (CS50P)", url: "https://cs50.harvard.edu/python/" },
+        { name: "Web (CS50W)", url: "https://cs50.harvard.edu/web/" },
+        { name: "SQL (CS50 SQL)", url: "https://cs50.harvard.edu/sql/" },
+        { name: "AI (CS50 AI)", url: "https://cs50.harvard.edu/ai/" },
+        { name: "Cybersecurity (CS50 Cyber)", url: "https://cs50.harvard.edu/cybersecurity/" }
+      ] }
     ]
   },
   mit: {
@@ -341,10 +388,10 @@ const DATA = {
     icon: "🏛️",
     categories: [
       { title: "Open Courseware", color: "var(--mit)", courses: [
-        "Intro to CS & Programming in Python (6.0001)",
-        "Introduction to Algorithms (6.006)",
-        "Computer System Engineering (6.033)",
-        "Artificial Intelligence (6.034)"
+        { name: "Intro to CS & Programming in Python (6.0001)", url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/" },
+        { name: "Introduction to Algorithms (6.006)", url: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/" },
+        { name: "Computer System Engineering (6.033)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/" },
+        { name: "Artificial Intelligence (6.034)", url: "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/" }
       ] }
     ]
   },
@@ -380,6 +427,13 @@ try {
 
 let activeSchool = "codedex";
 
+// Normalizes a course entry into { name, url } whether it's a plain
+// string (DUTH, no public course page) or an object with a link.
+function courseInfo(course) {
+  if (typeof course === "string") return { name: course, url: null };
+  return { name: course.name, url: course.url || null };
+}
+
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
 }
@@ -400,8 +454,9 @@ function schoolStats(key) {
   let total = 0, done = 0;
   school.categories.forEach(cat => {
     cat.courses.forEach(c => {
+      const name = courseInfo(c).name;
       total++;
-      if (isDone(key, c)) done++;
+      if (isDone(key, name)) done++;
     });
   });
   return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
@@ -465,8 +520,12 @@ function renderMain() {
       html += `<div class="category-title" style="color:${cat.color}">${escapeHtml(cat.title)}</div>`;
     }
     html += `<div class="course-grid">`;
-    cat.courses.forEach(course => {
+    cat.courses.forEach(courseEntry => {
+      const { name: course, url } = courseInfo(courseEntry);
       const done = isDone(activeSchool, course);
+      const nameMarkup = url
+        ? `<a class="course-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${escapeHtml(course)}</a>`
+        : escapeHtml(course);
       html += `
         <div class="course-row ${done ? 'done' : ''}" style="--row-accent:${cat.color}" data-course="${escapeHtml(course)}">
           <div class="checkbox">
@@ -474,7 +533,7 @@ function renderMain() {
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </div>
-          <div class="course-name">${escapeHtml(course)}</div>
+          <div class="course-name">${nameMarkup}</div>
         </div>
       `;
     });
