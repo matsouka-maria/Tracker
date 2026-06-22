@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tracker</title>
+<style>
+  :root {
+    --bg: #0f0e1a;
+    --panel: #1a1830;
+    --panel-2: #211e3d;
+    --border: #322d54;
+    --text: #ece9f7;
+    --text-dim: #9a93bd;
+    --text-faint: #6b6490;
+
+    --codedex: #b388ff;
+    --codedex-2: #4dd0c4;
+    --codedex-3: #ff79b0;
+    --codedex-4: #ffd166;
+
+    --harvard: #d23a4f;
+    --mit: #c23b3b;
+    --duth: #3f7fe0;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    padding: 40px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .sidebar h1 {
+    font-size: 28px;
+    margin: 0 0 6px 8px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+  }
+  .sidebar .sub {
+    margin: 0 0 32px 8px;
+    font-size: 16px;
+    color: var(--text-faint);
+  }
+
+  .school-btn {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 18px;
+    padding: 20px 20px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, border-color 0.15s;
+    color: var(--text);
+    font-family: inherit;
+    width: 100%;
+  }
+  .school-btn:hover {
+    background: var(--panel-2);
+  }
+  .school-btn.active {
+    background: var(--panel-2);
+    border-color: var(--ring-color);
+  }
+
+  .ring-wrap {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+  }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--border); stroke-width: 5; }
+  .ring-fg {
+    fill: none;
+    stroke: var(--ring-color);
+    stroke-width: 5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.4s ease;
+  }
+  .ring-pct {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ring-color);
+  }
+
+  .school-name { font-size: 21px; font-weight: 700; }
+  .school-meta { font-size: 14.5px; color: var(--text-faint); margin-top: 4px; }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 20px 10px 6px;
+    font-size: 13.5px;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+  }
+
+  /* MAIN */
+  .main {
+    padding: 50px 64px;
+    max-width: none;
+  }
+
+  .main-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .main-header h2 {
+    font-size: 44px;
+    margin: 0;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .overall-pct {
+    font-size: 20px;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+  .overall-pct span { color: var(--accent); font-weight: 800; }
+
+  .progress-track {
+    width: 100%;
+    height: 12px;
+    background: var(--panel-2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 22px 0 48px;
+    border: 1px solid var(--border);
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+
+  .category {
+    margin-bottom: 40px;
+  }
+  .category-title {
+    font-size: 17px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--accent);
+    margin-bottom: 18px;
+    font-weight: 800;
+    opacity: 0.9;
+  }
+
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .course-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .course-row:hover { border-color: var(--row-accent); }
+  .course-row.done {
+    background: var(--panel-2);
+    border-color: var(--row-accent);
+  }
+
+  .checkbox {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    border: 2.5px solid var(--text-faint);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .course-row.done .checkbox {
+    background: var(--row-accent);
+    border-color: var(--row-accent);
+  }
+  .checkbox svg { width: 17px; height: 17px; opacity: 0; transition: opacity 0.1s; }
+  .course-row.done .checkbox svg { opacity: 1; }
+
+  .course-name {
+    font-size: 19px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .course-row.done .course-name {
+    color: var(--text-dim);
+    text-decoration: line-through;
+    text-decoration-color: var(--text-faint);
+  }
+
+  .reset-btn {
+    margin-top: 16px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    font-size: 15px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    .school-btn { min-width: 260px; }
+    .main { padding: 30px 24px; }
+    .main-header h2 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <h1>📚 Learning Tracker</h1>
+    <p class="sub">Codedex · Harvard · MIT · DUTH</p>
+
+    <div id="sidebarList"></div>
+
+    <div class="sidebar-footer">Progress saved automatically in this browser.</div>
+  </aside>
+
+  <main class="main" id="mainPanel"></main>
+</div>
+
+<script>
+const DATA = {
+  codedex: {
+    label: "Codedex",
+    color: "var(--codedex)",
+    icon: "🧩",
+    categories: [
+      { title: "Python & Data", color: "var(--codedex)", courses: ["Python (Beginner)", "Intermediate Python", "Pandas", "NumPy", "Matplotlib", "Machine Learning", "GenAI", "SQL"] },
+      { title: "Web Development", color: "var(--codedex-2)", courses: ["HTML", "CSS", "JavaScript", "Intermediate JavaScript", "React", "Node.js", "p5.js"] },
+      { title: "Tools & Fundamentals", color: "var(--codedex-3)", courses: ["Command Line", "Git & GitHub", "GitHub Copilot", "Data Structures & Algorithms", "UI/UX Design"] },
+      { title: "Other Languages & Game Dev", color: "var(--codedex-4)", courses: ["C#", "C++", "Java", "Lua", "Phaser"] }
+    ]
+  },
+  harvard: {
+    label: "Harvard",
+    color: "var(--harvard)",
+    icon: "🎓",
+    categories: [
+      { title: "CS50 Series", color: "var(--harvard)", courses: ["CS50", "Python (CS50P)", "Web (CS50W)", "SQL (CS50 SQL)", "AI (CS50 AI)", "Cybersecurity (CS50 Cyber)"] }
+    ]
+  },
+  mit: {
+    label: "MIT OCW",
+    color: "var(--mit)",
+    icon: "🏛️",
+    categories: [
+      { title: "Open Courseware", color: "var(--mit)", courses: [
+        "Intro to CS & Programming in Python (6.0001)",
+        "Introduction to Algorithms (6.006)",
+        "Computer System Engineering (6.033)",
+        "Artificial Intelligence (6.034)"
+      ] }
+    ]
+  },
+  duth: {
+    label: "DUTH",
+    color: "var(--duth)",
+    icon: "🏫",
+    categories: [
+      { title: "Coursework", color: "var(--duth)", courses: [
+        "Calculus 1",
+        "Calculus 2",
+        "Algorithms and Data Structures",
+        "Databases",
+        "Java",
+        "Object-Oriented Programming",
+        "Scientific Computing",
+        "Applied Mathematics",
+        "Operating Systems",
+        "Educational Research Methodology",
+        "Compilers",
+        "Advanced Digital Design Applications"
+      ] }
+    ]
+  }
+};
+
+const STORAGE_KEY = "edu-tracker-state-v1";
+let state = {};
+try {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) state = JSON.parse(saved);
+} catch (e) { state = {}; }
+
+let activeSchool = "codedex";
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+function isDone(school, course) {
+  return !!(state[school] && state[school][course]);
+}
+
+function toggle(school, course) {
+  if (!state[school]) state[school] = {};
+  state[school][course] = !state[school][course];
+  saveState();
+  renderAll();
+}
+
+function schoolStats(key) {
+  const school = DATA[key];
+  let total = 0, done = 0;
+  school.categories.forEach(cat => {
+    cat.courses.forEach(c => {
+      total++;
+      if (isDone(key, c)) done++;
+    });
+  });
+  return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, ch => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[ch]));
+}
+
+function ring(pct, color) {
+  const r = 30, c = 2 * Math.PI * r;
+  const offset = c - (pct / 100) * c;
+  return `
+    <div class="ring-wrap" style="--ring-color:${color}">
+      <svg width="70" height="70" viewBox="0 0 70 70">
+        <circle class="ring-bg" cx="35" cy="35" r="${r}"></circle>
+        <circle class="ring-fg" cx="35" cy="35" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${offset}"></circle>
+      </svg>
+      <div class="ring-pct">${pct}%</div>
+    </div>
+  `;
+}
+
+function renderSidebar() {
+  const el = document.getElementById("sidebarList");
+  el.innerHTML = Object.keys(DATA).map(key => {
+    const school = DATA[key];
+    const stats = schoolStats(key);
+    const active = key === activeSchool ? "active" : "";
+    return `
+      <button class="school-btn ${active}" style="--ring-color:${school.color}" data-school="${key}">
+        ${ring(stats.pct, school.color)}
+        <div>
+          <div class="school-name">${school.icon} ${school.label}</div>
+          <div class="school-meta">${stats.done}/${stats.total} courses</div>
+        </div>
+      </button>
+    `;
+  }).join("");
+}
+
+function renderMain() {
+  const school = DATA[activeSchool];
+  const stats = schoolStats(activeSchool);
+  const el = document.getElementById("mainPanel");
+  el.style.setProperty("--accent", school.color);
+
+  let html = `
+    <div class="main-header">
+      <h2>${school.icon} ${school.label}</h2>
+      <div class="overall-pct"><span>${stats.pct}%</span> complete &middot; ${stats.done}/${stats.total}</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:${stats.pct}%"></div></div>
+  `;
+
+  school.categories.forEach(cat => {
+    html += `<div class="category">`;
+    if (school.categories.length > 1) {
+      html += `<div class="category-title" style="color:${cat.color}">${escapeHtml(cat.title)}</div>`;
+    }
+    html += `<div class="course-grid">`;
+    cat.courses.forEach(course => {
+      const done = isDone(activeSchool, course);
+      html += `
+        <div class="course-row ${done ? 'done' : ''}" style="--row-accent:${cat.color}" data-course="${escapeHtml(course)}">
+          <div class="checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="course-name">${escapeHtml(course)}</div>
+        </div>
+      `;
+    });
+    html += `</div></div>`;
+  });
+
+  html += `<button class="reset-btn" data-reset="${activeSchool}">Reset ${school.label} progress</button>`;
+
+  el.innerHTML = html;
+}
+
+function setActive(key) {
+  activeSchool = key;
+  renderAll();
+}
+
+function resetSchool(key) {
+  if (confirm(`Reset all progress for ${DATA[key].label}?`)) {
+    state[key] = {};
+    saveState();
+    renderAll();
+  }
+}
+
+function renderAll() {
+  renderSidebar();
+  renderMain();
+}
+
+document.getElementById("sidebarList").addEventListener("click", (e) => {
+  const btn = e.target.closest(".school-btn");
+  if (btn) setActive(btn.dataset.school);
+});
+
+document.getElementById("mainPanel").addEventListener("click", (e) => {
+  const row = e.target.closest(".course-row");
+  if (row) { toggle(activeSchool, row.dataset.course); return; }
+  const resetBtn = e.target.closest(".reset-btn");
+  if (resetBtn) resetSchool(resetBtn.dataset.reset);
+});
+
+renderAll();
+</script>
+
+</body>
+</html>
