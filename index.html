@@ -118,6 +118,57 @@
     border-top: 1px solid var(--border);
   }
 
+  .countdown-card {
+    background: linear-gradient(135deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin: 0 0 12px;
+    text-align: center;
+  }
+  .countdown-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--text-faint);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .countdown-units {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 48px;
+  }
+  .countdown-num {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--codedex-4);
+    line-height: 1;
+  }
+  .countdown-unit-label {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .countdown-date {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--text-faint);
+  }
+  .countdown-done {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--codedex-4);
+  }
+
   /* MAIN */
   .main {
     padding: 50px 64px;
@@ -252,6 +303,8 @@
   <aside class="sidebar">
     <h1>📚 Learning Tracker</h1>
     <p class="sub">Codedex · Harvard · MIT · DUTH</p>
+
+    <div id="countdownCard"></div>
 
     <div id="sidebarList"></div>
 
@@ -446,7 +499,51 @@ function resetSchool(key) {
   }
 }
 
+function renderCountdown() {
+  const target = new Date(2026, 6, 20, 0, 0, 0); // July 20, 2026 (month is 0-indexed)
+  const now = new Date();
+  const diffMs = target - now;
+  const el = document.getElementById("countdownCard");
+
+  if (diffMs <= 0) {
+    el.innerHTML = `
+      <div class="countdown-card">
+        <div class="countdown-label">July 20 Goal</div>
+        <div class="countdown-done">🎉 Target date reached!</div>
+      </div>
+    `;
+    return;
+  }
+
+  const totalSeconds = Math.floor(diffMs / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+  el.innerHTML = `
+    <div class="countdown-card">
+      <div class="countdown-label">⏳ Countdown to Jul 20</div>
+      <div class="countdown-units">
+        <div class="countdown-unit">
+          <div class="countdown-num">${days}</div>
+          <div class="countdown-unit-label">days</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-num">${hours}</div>
+          <div class="countdown-unit-label">hrs</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-num">${minutes}</div>
+          <div class="countdown-unit-label">min</div>
+        </div>
+      </div>
+      <div class="countdown-date">Target: July 20, 2026</div>
+    </div>
+  `;
+}
+
 function renderAll() {
+  renderCountdown();
   renderSidebar();
   renderMain();
 }
@@ -464,6 +561,7 @@ document.getElementById("mainPanel").addEventListener("click", (e) => {
 });
 
 renderAll();
+setInterval(renderCountdown, 1000 * 30);
 </script>
 
 </body>
