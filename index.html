@@ -118,53 +118,53 @@
     border-top: 1px solid var(--border);
   }
 
+  .top-row {
+    display: flex;
+    gap: 12px;
+    margin: 0 0 12px;
+  }
+  .top-row > div { flex: 1; min-width: 0; }
+
   .countdown-card {
     background: linear-gradient(135deg, var(--panel-2), var(--panel));
     border: 1px solid var(--border);
     border-radius: 18px;
-    padding: 20px 22px;
-    margin: 0 0 12px;
+    padding: 18px 14px;
     text-align: center;
+    height: 100%;
   }
   .countdown-label {
-    font-size: 13px;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.2px;
     color: var(--text-faint);
     font-weight: 700;
     margin-bottom: 10px;
+    white-space: nowrap;
   }
-  .countdown-units {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-  }
-  .countdown-unit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 48px;
-  }
-  .countdown-num {
-    font-size: 26px;
+  .countdown-big {
+    font-size: 38px;
     font-weight: 800;
     color: var(--codedex-4);
     line-height: 1;
   }
+  .overall-card .countdown-big {
+    color: var(--codedex-2);
+  }
   .countdown-unit-label {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-faint);
-    margin-top: 4px;
+    margin-top: 8px;
     text-transform: uppercase;
     letter-spacing: 0.6px;
   }
   .countdown-date {
-    margin-top: 12px;
-    font-size: 12.5px;
+    margin-top: 10px;
+    font-size: 11.5px;
     color: var(--text-faint);
   }
   .countdown-done {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--codedex-4);
   }
@@ -315,7 +315,10 @@
     <h1>📚 Learning Tracker</h1>
     <p class="sub">Codedex · Harvard · MIT · DUTH</p>
 
-    <div id="countdownCard"></div>
+    <div class="top-row">
+      <div id="countdownCard"></div>
+      <div id="overallCard"></div>
+    </div>
 
     <div id="sidebarList"></div>
 
@@ -567,42 +570,46 @@ function renderCountdown() {
   if (diffMs <= 0) {
     el.innerHTML = `
       <div class="countdown-card">
-        <div class="countdown-label">July 20 Goal</div>
-        <div class="countdown-done">🎉 Target date reached!</div>
+        <div class="countdown-label">⏳ Jul 20</div>
+        <div class="countdown-done">🎉 Reached!</div>
       </div>
     `;
     return;
   }
 
-  const totalSeconds = Math.floor(diffMs / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const days = Math.ceil(diffMs / 86400000);
 
   el.innerHTML = `
     <div class="countdown-card">
-      <div class="countdown-label">⏳ Countdown to Jul 20</div>
-      <div class="countdown-units">
-        <div class="countdown-unit">
-          <div class="countdown-num">${days}</div>
-          <div class="countdown-unit-label">days</div>
-        </div>
-        <div class="countdown-unit">
-          <div class="countdown-num">${hours}</div>
-          <div class="countdown-unit-label">hrs</div>
-        </div>
-        <div class="countdown-unit">
-          <div class="countdown-num">${minutes}</div>
-          <div class="countdown-unit-label">min</div>
-        </div>
-      </div>
-      <div class="countdown-date">Target: July 20, 2026</div>
+      <div class="countdown-label">⏳ Jul 20</div>
+      <div class="countdown-big">${days}</div>
+      <div class="countdown-unit-label">days left</div>
+    </div>
+  `;
+}
+
+function renderOverallProgress() {
+  let total = 0, done = 0;
+  Object.keys(DATA).forEach(key => {
+    const stats = schoolStats(key);
+    total += stats.total;
+    done += stats.done;
+  });
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const el = document.getElementById("overallCard");
+
+  el.innerHTML = `
+    <div class="countdown-card overall-card">
+      <div class="countdown-label">📊 Overall</div>
+      <div class="countdown-big">${pct}%</div>
+      <div class="countdown-unit-label">${done}/${total} courses</div>
     </div>
   `;
 }
 
 function renderAll() {
   renderCountdown();
+  renderOverallProgress();
   renderSidebar();
   renderMain();
 }
@@ -620,7 +627,7 @@ document.getElementById("mainPanel").addEventListener("click", (e) => {
 });
 
 renderAll();
-setInterval(renderCountdown, 1000 * 30);
+setInterval(renderCountdown, 1000 * 60 * 5);
 </script>
 
 </body>
