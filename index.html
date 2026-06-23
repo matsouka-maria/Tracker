@@ -226,25 +226,37 @@
   }
 
   .course-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 16px;
   }
+
+  .course-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .course-block:hover { border-color: var(--row-accent); }
+  .course-block.done { border-color: var(--row-accent); }
 
   .course-row {
     display: flex;
     align-items: center;
     gap: 18px;
+    padding: 22px 24px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .course-row.simple {
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 22px 24px;
-    cursor: pointer;
     transition: border-color 0.15s, background 0.15s;
-    user-select: none;
   }
-  .course-row:hover { border-color: var(--row-accent); }
-  .course-row.done {
+  .course-row.simple:hover { border-color: var(--row-accent); }
+  .course-row.simple.done {
     background: var(--panel-2);
     border-color: var(--row-accent);
   }
@@ -257,20 +269,90 @@
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s, border-color 0.15s;
   }
-  .course-row.done .checkbox {
+  .course-row.simple.done .checkbox,
+  .sub-row.done .checkbox {
     background: var(--row-accent);
     border-color: var(--row-accent);
   }
   .checkbox svg { width: 17px; height: 17px; opacity: 0; transition: opacity 0.1s; }
-  .course-row.done .checkbox svg { opacity: 1; }
+  .course-row.simple.done .checkbox svg,
+  .sub-row.done .checkbox svg { opacity: 1; }
+
+  .checkbox.subcount {
+    width: auto;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-dim);
+    border-color: var(--border);
+    background: var(--panel-2);
+  }
+  .course-block.done .checkbox.subcount {
+    background: var(--row-accent);
+    border-color: var(--row-accent);
+    color: var(--bg);
+  }
+
+  .chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    color: var(--text-faint);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s ease, color 0.15s;
+  }
+  .chevron svg { width: 18px; height: 18px; }
+  .chevron.open { transform: rotate(180deg); color: var(--row-accent); }
+
+  .sub-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    border-top: 1px solid transparent;
+  }
+  .sub-list.open {
+    max-height: 1200px;
+    border-top: 1px solid var(--border);
+  }
+
+  .sub-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 24px 13px 24px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.12s;
+  }
+  .sub-row:hover { background: var(--panel-2); }
+  .sub-row .checkbox {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+  }
+  .sub-row .checkbox svg { width: 13px; height: 13px; }
+  .sub-name {
+    font-size: 15.5px;
+    color: var(--text-dim);
+  }
+  .sub-row.done .sub-name {
+    color: var(--text-faint);
+    text-decoration: line-through;
+    text-decoration-color: var(--text-faint);
+  }
 
   .course-name {
     font-size: 19px;
     color: var(--text);
     font-weight: 600;
   }
-  .course-row.done .course-name {
+  .course-block.done .course-name,
+  .course-row.simple.done .course-name {
     color: var(--text-dim);
+  }
+  .course-row.simple.done .course-name {
     text-decoration: line-through;
     text-decoration-color: var(--text-faint);
   }
@@ -336,37 +418,110 @@ const DATA = {
     icon: "🧩",
     categories: [
       { title: "Python & Data", color: "var(--codedex)", courses: [
-        { name: "Python (Beginner)", url: "https://www.codedex.io/python" },
-        { name: "Intermediate Python", url: "https://www.codedex.io/intermediate-python" },
-        { name: "Pandas", url: "https://www.codedex.io/pandas" },
-        { name: "NumPy", url: "https://www.codedex.io/numpy" },
-        { name: "Matplotlib", url: "https://www.codedex.io/matplotlib" },
-        { name: "Machine Learning", url: "https://www.codedex.io/machine-learning" },
-        { name: "GenAI", url: "https://www.codedex.io/gen-ai" },
-        { name: "SQL", url: "https://www.codedex.io/sql" }
+        { name: "Python (Beginner)", url: "https://www.codedex.io/python", subs: [
+          "Setting Up", "Hello World", "Variables", "Control Flow", "Loops",
+          "Checkpoint Project", "Lists", "Functions", "Classes & Objects",
+          "Modules", "Final Project"
+        ] },
+        { name: "Intermediate Python", url: "https://www.codedex.io/intermediate-python", subs: [
+          "Tuples, Dicts & Sets", "File I/O", "Functional Programming",
+          "Unit Tests", "Final Project"
+        ] },
+        { name: "Pandas", url: "https://www.codedex.io/pandas", subs: [
+          "Series & DataFrames", "Reading Data", "Cleaning Data",
+          "Filtering & Sorting", "Grouping & Aggregating", "Final Project"
+        ] },
+        { name: "NumPy", url: "https://www.codedex.io/numpy", subs: [
+          "Arrays", "Array Operations", "Indexing & Slicing",
+          "Reshaping", "Final Project"
+        ] },
+        { name: "Matplotlib", url: "https://www.codedex.io/matplotlib", subs: [
+          "Line Plots", "Bar & Scatter Plots", "Styling Charts",
+          "Subplots", "Final Project"
+        ] },
+        { name: "Machine Learning", url: "https://www.codedex.io/machine-learning", subs: [
+          "Intro to ML", "Regression", "Classification",
+          "Model Evaluation", "Final Project"
+        ] },
+        { name: "GenAI", url: "https://www.codedex.io/gen-ai", subs: [
+          "How LLMs Work", "Prompting", "Embeddings",
+          "Limitations & Hallucinations", "Final Project"
+        ] },
+        { name: "SQL", url: "https://www.codedex.io/sql", subs: [
+          "Querying", "Aggregate Functions", "Creating & Modifying Tables",
+          "Joins", "Final Project"
+        ] }
       ] },
       { title: "Web Development", color: "var(--codedex-2)", courses: [
-        { name: "HTML", url: "https://www.codedex.io/html" },
-        { name: "CSS", url: "https://www.codedex.io/css" },
-        { name: "JavaScript", url: "https://www.codedex.io/javascript" },
-        { name: "Intermediate JavaScript", url: "https://www.codedex.io/intermediate-javascript" },
-        { name: "React", url: "https://www.codedex.io/react" },
-        { name: "Node.js", url: "https://www.codedex.io/nodejs" },
-        { name: "p5.js", url: "https://www.codedex.io/p5js" }
+        { name: "HTML", url: "https://www.codedex.io/html", subs: [
+          "Setting Up", "Elemental", "Forms", "Semantic HTML", "Final Project"
+        ] },
+        { name: "CSS", url: "https://www.codedex.io/css", subs: [
+          "Selectors Pt. 1", "Selectors Pt. 2", "Properties",
+          "Box Model", "Layout & Flow", "Flexbox", "Final Project"
+        ] },
+        { name: "JavaScript", url: "https://www.codedex.io/javascript", subs: [
+          "Hello Console", "Variables & Data Types", "Conditionals",
+          "Loops", "Functions & Events", "Final Project"
+        ] },
+        { name: "Intermediate JavaScript", url: "https://www.codedex.io/intermediate-javascript", subs: [
+          "ES6+ Features", "DOM Manipulation", "Async Programming",
+          "Fetch & APIs", "Final Project"
+        ] },
+        { name: "React", url: "https://www.codedex.io/react", subs: [
+          "Components", "Props & State", "Hooks",
+          "Handling Events", "Final Project"
+        ] },
+        { name: "Node.js", url: "https://www.codedex.io/nodejs", subs: [
+          "Intro to Node.js", "Modules", "Creating a Server", "Final Project"
+        ] },
+        { name: "p5.js", url: "https://www.codedex.io/p5js", subs: [
+          "Canvas Basics", "Shapes & Color", "Animation",
+          "Interactivity", "Final Project"
+        ] }
       ] },
       { title: "Tools & Fundamentals", color: "var(--codedex-3)", courses: [
-        { name: "Command Line", url: "https://www.codedex.io/command-line" },
-        { name: "Git & GitHub", url: "https://www.codedex.io/git-github" },
-        { name: "GitHub Copilot", url: "https://www.codedex.io/github-copilot" },
-        { name: "Data Structures & Algorithms", url: "https://www.codedex.io/data-structures-and-algorithms" },
-        { name: "UI/UX Design", url: "https://www.codedex.io/ui-ux" }
+        { name: "Command Line", url: "https://www.codedex.io/command-line", subs: [
+          "Navigating the Filesystem", "Managing Files",
+          "Permissions", "Final Project"
+        ] },
+        { name: "Git & GitHub", url: "https://www.codedex.io/git-github", subs: [
+          "Git Basics", "Commits", "Branches & Merge Conflicts",
+          "Forks & Pull Requests", "Final Project"
+        ] },
+        { name: "GitHub Copilot", url: "https://www.codedex.io/github-copilot", subs: [
+          "Getting Started", "Inline Suggestions", "Copilot Chat", "Final Project"
+        ] },
+        { name: "Data Structures & Algorithms", url: "https://www.codedex.io/data-structures-and-algorithms", subs: [
+          "Arrays & Linked Lists", "Stacks & Queues", "Sorting",
+          "Searching", "Trees", "Final Project"
+        ] },
+        { name: "UI/UX Design", url: "https://www.codedex.io/ui-ux", subs: [
+          "Design Principles", "Wireframing", "Figma Basics",
+          "Prototyping", "Final Project"
+        ] }
       ] },
       { title: "Other Languages & Game Dev", color: "var(--codedex-4)", courses: [
-        { name: "C#", url: "https://www.codedex.io/c-sharp" },
-        { name: "C++", url: "https://www.codedex.io/c-plus-plus" },
-        { name: "Java", url: "https://www.codedex.io/java" },
-        { name: "Lua", url: "https://www.codedex.io/lua" },
-        { name: "Phaser", url: "https://www.codedex.io/phaser" }
+        { name: "C#", url: "https://www.codedex.io/c-sharp", subs: [
+          "Hello World", "Variables", "Control Flow",
+          "Loops", "Methods", "Final Project"
+        ] },
+        { name: "C++", url: "https://www.codedex.io/c-plus-plus", subs: [
+          "Hello World", "Variables & Types", "Control Flow",
+          "Functions", "OOP & Data Structures", "Final Project"
+        ] },
+        { name: "Java", url: "https://www.codedex.io/java", subs: [
+          "Hello World", "Variables", "Control Flow",
+          "OOP", "Data Structures", "Final Project"
+        ] },
+        { name: "Lua", url: "https://www.codedex.io/lua", subs: [
+          "Hello World", "Variables", "Control Flow",
+          "Functions", "Roblox Studio Basics", "Final Project"
+        ] },
+        { name: "Phaser", url: "https://www.codedex.io/phaser", subs: [
+          "Setting Up", "Sprites & Scenes", "Movement & Input",
+          "Collisions", "Final Project"
+        ] }
       ] }
     ]
   },
@@ -376,12 +531,38 @@ const DATA = {
     icon: "🎓",
     categories: [
       { title: "CS50 Series", color: "var(--harvard)", courses: [
-        { name: "CS50", url: "https://cs50.harvard.edu/x/" },
-        { name: "Python (CS50P)", url: "https://cs50.harvard.edu/python/" },
-        { name: "Web (CS50W)", url: "https://cs50.harvard.edu/web/" },
-        { name: "SQL (CS50 SQL)", url: "https://cs50.harvard.edu/sql/" },
-        { name: "AI (CS50 AI)", url: "https://cs50.harvard.edu/ai/" },
-        { name: "Cybersecurity (CS50 Cyber)", url: "https://cs50.harvard.edu/cybersecurity/" }
+        { name: "CS50", url: "https://cs50.harvard.edu/x/", subs: [
+          "Week 0: Scratch", "Week 1: C", "Week 2: Arrays", "Week 3: Algorithms",
+          "Week 4: Memory", "Week 5: Data Structures", "Week 6: Python",
+          "Week 7: SQL", "Week 7: Artificial Intelligence", "Week 8: HTML, CSS, JavaScript",
+          "Week 9: Flask", "Week 10: The End"
+        ] },
+        { name: "Python (CS50P)", url: "https://cs50.harvard.edu/python/", subs: [
+          "Week 0: Functions, Variables", "Week 1: Conditionals", "Week 2: Loops",
+          "Week 3: Exceptions", "Week 4: Libraries", "Week 5: Unit Tests",
+          "Week 6: File I/O", "Week 7: Regular Expressions",
+          "Week 8: Object-Oriented Programming", "Week 9: Et Cetera"
+        ] },
+        { name: "Web (CS50W)", url: "https://cs50.harvard.edu/web/", subs: [
+          "Week 0: HTML, CSS", "Week 1: Git", "Week 2: Python", "Week 3: Django",
+          "Week 4: SQL, Models, and Migrations", "Week 5: JavaScript",
+          "Week 6: User Interfaces", "Week 7: Testing, CI/CD",
+          "Week 8: Scalability and Security"
+        ] },
+        { name: "SQL (CS50 SQL)", url: "https://cs50.harvard.edu/sql/", subs: [
+          "Week 0: Querying", "Week 1: Relating", "Week 2: Designing",
+          "Week 3: Writing", "Week 4: Viewing", "Week 5: Optimizing"
+        ] },
+        { name: "AI (CS50 AI)", url: "https://cs50.harvard.edu/ai/", subs: [
+          "Week 0: Search", "Week 1: Knowledge", "Week 2: Uncertainty",
+          "Week 3: Optimization", "Week 4: Learning", "Week 5: Neural Networks",
+          "Week 6: Language"
+        ] },
+        { name: "Cybersecurity (CS50 Cyber)", url: "https://cs50.harvard.edu/cybersecurity/", subs: [
+          "Week 0: Securing Accounts", "Week 1: Securing Data",
+          "Week 2: Securing Systems", "Week 3: Securing Software",
+          "Week 4: Preserving Privacy"
+        ] }
       ] }
     ]
   },
@@ -391,10 +572,39 @@ const DATA = {
     icon: "🏛️",
     categories: [
       { title: "Open Courseware", color: "var(--mit)", courses: [
-        { name: "Intro to CS & Programming in Python (6.0001)", url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/" },
-        { name: "Introduction to Algorithms (6.006)", url: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/" },
-        { name: "Computer System Engineering (6.033)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/" },
-        { name: "Artificial Intelligence (6.034)", url: "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/" }
+        { name: "Intro to CS & Programming in Python (6.0001)", url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/", subs: [
+          "Lec 1: What is Computation?", "Lec 2: Branching and Iteration",
+          "Lec 3: String Manipulation, Bisection", "Lec 4: Decomposition, Functions",
+          "Lec 5: Tuples, Lists, Mutability", "Lec 6: Recursion, Dictionaries",
+          "Lec 7: Testing, Debugging, Exceptions", "Lec 8: Object Oriented Programming",
+          "Lec 9: Python Classes and Inheritance", "Lec 10: Program Efficiency, Pt. 1",
+          "Lec 11: Program Efficiency, Pt. 2", "Lec 12: Searching and Sorting"
+        ] },
+        { name: "Introduction to Algorithms (6.006)", url: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/", subs: [
+          "Lec 1: Introduction", "Lec 2: Data Structures", "Lec 3: Sorting",
+          "Lec 4: Hashing", "Lec 5: Linear Sorting", "Lec 6: Binary Trees, Pt. 1",
+          "Lec 7: Binary Trees, Pt. 2: AVL", "Lec 8: Binary Heaps",
+          "Lec 9: Breadth-First Search", "Lec 10: Depth-First Search",
+          "Lec 11: Weighted Shortest Paths", "Lec 12: Bellman-Ford",
+          "Lec 13: Dijkstra's Algorithm", "Lec 14: Johnson's Algorithm",
+          "Lec 15: Recursive Algorithms", "Lec 16: Dynamic Programming"
+        ] },
+        { name: "Computer System Engineering (6.033)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/", subs: [
+          "Week 1: Operating Systems Pt. I", "Week 2: Operating Systems Pt. II",
+          "Week 3: Operating Systems Pt. III", "Week 4: Operating Systems Pt. IV",
+          "Week 5: Networking Pt. I", "Week 6: Networking Pt. II",
+          "Week 7: Networking Pt. III", "Week 8: Distributed Systems Pt. I",
+          "Week 9: Distributed Systems Pt. II", "Week 10: Distributed Systems Pt. III",
+          "Week 11: Security Pt. I", "Week 12: Security Pt. II"
+        ] },
+        { name: "Artificial Intelligence (6.034)", url: "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/", subs: [
+          "Lec 1: Introduction and Scope", "Lec 2: Reasoning: Goal Trees",
+          "Lec 3: Rule-Based Expert Systems", "Lec 4: Search: DFS, Hill Climbing, Beam",
+          "Lec 5: Search: Optimal, Branch and Bound, A*", "Lec 6: Search: Games, Minimax, Alpha-Beta",
+          "Lec 7: Constraints: Interpreting Line Drawings", "Lec 8: Constraints: Search, Domain Reduction",
+          "Lec 9: Constraints: Visual Object Recognition", "Lec 10: Learning: Nearest Neighbors",
+          "Lec 11: Learning: Identification Trees", "Lec 12: Neural Nets"
+        ] }
       ] }
     ]
   },
@@ -429,27 +639,51 @@ try {
 } catch (e) { state = {}; }
 
 let activeSchool = "codedex";
+let expanded = {}; // tracks which courses are expanded, keyed by "school::courseName"
 
-// Normalizes a course entry into { name, url } whether it's a plain
-// string (DUTH, no public course page) or an object with a link.
+// Normalizes a course entry into { name, url, subs } whether it's a plain
+// string (DUTH, no public course page / no subcategories) or an object
+// with a link and/or a subs list.
 function courseInfo(course) {
-  if (typeof course === "string") return { name: course, url: null };
-  return { name: course.name, url: course.url || null };
+  if (typeof course === "string") return { name: course, url: null, subs: null };
+  return { name: course.name, url: course.url || null, subs: course.subs || null };
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
 }
 
-function isDone(school, course) {
-  return !!(state[school] && state[school][course]);
+// itemKey is either a course name (DUTH, no subs) or "Course Name::Sub Name"
+function isDone(school, itemKey) {
+  return !!(state[school] && state[school][itemKey]);
 }
 
-function toggle(school, course) {
+function toggle(school, itemKey) {
   if (!state[school]) state[school] = {};
-  state[school][course] = !state[school][course];
+  state[school][itemKey] = !state[school][itemKey];
   saveState();
   renderAll();
+}
+
+function toggleExpand(school, courseName) {
+  const key = school + "::" + courseName;
+  expanded[key] = !expanded[key];
+  renderMain();
+}
+
+// Returns { total, done, pct } for a single course. If it has subs, counts
+// subs; otherwise counts the course itself as one item (DUTH).
+function courseStats(school, courseEntry) {
+  const { name, subs } = courseInfo(courseEntry);
+  if (subs && subs.length) {
+    let done = 0;
+    subs.forEach(sub => {
+      if (isDone(school, name + "::" + sub)) done++;
+    });
+    return { total: subs.length, done, pct: Math.round((done / subs.length) * 100) };
+  }
+  const done = isDone(school, name) ? 1 : 0;
+  return { total: 1, done, pct: done ? 100 : 0 };
 }
 
 function schoolStats(key) {
@@ -457,9 +691,9 @@ function schoolStats(key) {
   let total = 0, done = 0;
   school.categories.forEach(cat => {
     cat.courses.forEach(c => {
-      const name = courseInfo(c).name;
-      total++;
-      if (isDone(key, name)) done++;
+      const cs = courseStats(key, c);
+      total += cs.total;
+      done += cs.done;
     });
   });
   return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
@@ -524,21 +758,59 @@ function renderMain() {
     }
     html += `<div class="course-grid">`;
     cat.courses.forEach(courseEntry => {
-      const { name: course, url } = courseInfo(courseEntry);
-      const done = isDone(activeSchool, course);
+      const { name: course, url, subs } = courseInfo(courseEntry);
       const nameMarkup = url
         ? `<a class="course-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${escapeHtml(course)}</a>`
         : escapeHtml(course);
-      html += `
-        <div class="course-row ${done ? 'done' : ''}" style="--row-accent:${cat.color}" data-course="${escapeHtml(course)}">
-          <div class="checkbox">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
+
+      if (subs && subs.length) {
+        // Expandable course with its own sub-checklist (chapters/weeks/lectures)
+        const cs = courseStats(activeSchool, courseEntry);
+        const done = cs.done === cs.total;
+        const expandKey = activeSchool + "::" + course;
+        const isOpen = !!expanded[expandKey];
+
+        html += `
+          <div class="course-block ${done ? 'done' : ''}" style="--row-accent:${cat.color}">
+            <div class="course-row" data-expand-course="${escapeHtml(course)}">
+              <div class="checkbox subcount">${cs.done}/${cs.total}</div>
+              <div class="course-name">${nameMarkup}</div>
+              <div class="chevron ${isOpen ? 'open' : ''}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+            </div>
+            <div class="sub-list ${isOpen ? 'open' : ''}">
+              ${subs.map(sub => {
+                const subKey = course + "::" + sub;
+                const subDone = isDone(activeSchool, subKey);
+                return `
+                  <div class="sub-row ${subDone ? 'done' : ''}" data-sub-course="${escapeHtml(course)}" data-sub-name="${escapeHtml(sub)}">
+                    <div class="checkbox sub-checkbox">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <div class="sub-name">${escapeHtml(sub)}</div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
           </div>
-          <div class="course-name">${nameMarkup}</div>
-        </div>
-      `;
+        `;
+      } else {
+        // Simple single-checkbox course (DUTH — no subcategories)
+        const done = isDone(activeSchool, course);
+        html += `
+          <div class="course-row simple ${done ? 'done' : ''}" style="--row-accent:${cat.color}" data-course="${escapeHtml(course)}">
+            <div class="checkbox">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="course-name">${nameMarkup}</div>
+          </div>
+        `;
+      }
     });
     html += `</div></div>`;
   });
@@ -620,8 +892,20 @@ document.getElementById("sidebarList").addEventListener("click", (e) => {
 });
 
 document.getElementById("mainPanel").addEventListener("click", (e) => {
-  const row = e.target.closest(".course-row");
-  if (row) { toggle(activeSchool, row.dataset.course); return; }
+  const subRow = e.target.closest(".sub-row");
+  if (subRow) {
+    const course = subRow.dataset.subCourse;
+    const sub = subRow.dataset.subName;
+    toggle(activeSchool, course + "::" + sub);
+    return;
+  }
+  const expandRow = e.target.closest("[data-expand-course]");
+  if (expandRow) {
+    toggleExpand(activeSchool, expandRow.dataset.expandCourse);
+    return;
+  }
+  const simpleRow = e.target.closest(".course-row.simple");
+  if (simpleRow) { toggle(activeSchool, simpleRow.dataset.course); return; }
   const resetBtn = e.target.closest(".reset-btn");
   if (resetBtn) resetSchool(resetBtn.dataset.reset);
 });
