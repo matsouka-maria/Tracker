@@ -226,9 +226,10 @@
   }
 
   .course-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
+    align-items: start;
   }
 
   .course-block {
@@ -240,12 +241,15 @@
   }
   .course-block:hover { border-color: var(--row-accent); }
   .course-block.done { border-color: var(--row-accent); }
+  .course-block.expanded {
+    grid-column: 1 / -1;
+  }
 
   .course-row {
     display: flex;
     align-items: center;
-    gap: 18px;
-    padding: 22px 24px;
+    gap: 14px;
+    padding: 18px 20px;
     cursor: pointer;
     user-select: none;
   }
@@ -316,13 +320,15 @@
   .sub-list.open {
     max-height: 1200px;
     border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   }
 
   .sub-row {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 13px 24px 13px 24px;
+    padding: 13px 20px;
     cursor: pointer;
     user-select: none;
     transition: background 0.12s;
@@ -344,9 +350,12 @@
   }
 
   .course-name {
-    font-size: 19px;
+    font-size: 16.5px;
     color: var(--text);
     font-weight: 600;
+    flex: 1;
+    min-width: 0;
+    line-height: 1.3;
   }
   .course-block.done .course-name,
   .course-row.simple.done .course-name {
@@ -771,7 +780,7 @@ function renderMain() {
         const isOpen = !!expanded[expandKey];
 
         html += `
-          <div class="course-block ${done ? 'done' : ''}" style="--row-accent:${cat.color}">
+          <div class="course-block ${done ? 'done' : ''} ${isOpen ? 'expanded' : ''}" style="--row-accent:${cat.color}">
             <div class="course-row" data-expand-course="${escapeHtml(course)}">
               <div class="checkbox subcount">${cs.done}/${cs.total}</div>
               <div class="course-name">${nameMarkup}</div>
