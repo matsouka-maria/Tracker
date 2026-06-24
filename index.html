@@ -213,14 +213,14 @@ html, body {
 }
 .course-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
   align-items: start;
 }
 .course-block {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   transition: border-color 0.15s, background 0.15s;
 }
@@ -232,19 +232,19 @@ html, body {
 .course-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 20px;
+  gap: 10px;
+  padding: 12px 14px;
   cursor: pointer;
   user-select: none;
 }
 .course-row.simple {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 20px;
+  gap: 10px;
+  padding: 12px 14px;
   cursor: pointer;
   user-select: none;
   transition: border-color 0.15s, background 0.15s;
@@ -255,8 +255,8 @@ html, body {
   border-color: var(--row-accent);
 }
 .checkbox {
-  width: 28px; height: 28px;
-  border-radius: 8px;
+  width: 22px; height: 22px;
+  border-radius: 7px;
   border: 2.5px solid var(--text-faint);
   flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
@@ -267,16 +267,16 @@ html, body {
   background: var(--row-accent);
   border-color: var(--row-accent);
 }
-.checkbox svg { width: 17px; height: 17px; opacity: 0; transition: opacity 0.1s; }
+.checkbox svg { width: 13px; height: 13px; opacity: 0; transition: opacity 0.1s; }
 .course-row.simple.done .checkbox svg,
 .sub-row.done .checkbox svg { opacity: 1; }
 .checkbox.subcount {
   width: auto;
-  min-width: 28px;
-  height: 28px;
-  padding: 0 8px;
-  border-radius: 8px;
-  font-size: 12.5px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 7px;
+  font-size: 11.5px;
   font-weight: 700;
   color: var(--text-dim);
   border-color: var(--border);
@@ -290,12 +290,12 @@ html, body {
 .chevron {
   margin-left: auto;
   flex-shrink: 0;
-  width: 20px; height: 20px;
+  width: 16px; height: 16px;
   color: var(--text-faint);
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.2s ease, color 0.15s;
 }
-.chevron svg { width: 18px; height: 18px; }
+.chevron svg { width: 15px; height: 15px; }
 .chevron.open { transform: rotate(180deg); color: var(--row-accent); }
 .sub-list {
   max-height: 0;
@@ -307,25 +307,25 @@ html, body {
   max-height: 1200px;
   border-top: 1px solid var(--border);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 .sub-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 13px 20px;
+  gap: 10px;
+  padding: 10px 14px;
   cursor: pointer;
   user-select: none;
   transition: background 0.12s;
 }
 .sub-row:hover { background: var(--panel-2); }
 .sub-row .checkbox {
-  width: 22px; height: 22px;
+  width: 19px; height: 19px;
   border-radius: 6px;
 }
-.sub-row .checkbox svg { width: 13px; height: 13px; }
+.sub-row .checkbox svg { width: 11px; height: 11px; }
 .sub-name {
-  font-size: 15.5px;
+  font-size: 14px;
   color: var(--text-dim);
 }
 .sub-row.done .sub-name {
@@ -334,7 +334,7 @@ html, body {
   text-decoration-color: var(--text-faint);
 }
 .course-name {
-  font-size: 16.5px;
+  font-size: 14.5px;
   color: var(--text);
   font-weight: 600;
   flex: 1;
