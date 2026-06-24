@@ -215,6 +215,26 @@ html, body {
   gap: 16px;
   align-items: start;
 }
+.course-block {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+}
+.course-block:hover { border-color: var(--row-accent); }
+.course-block.done { border-color: var(--row-accent); }
+.course-block.expanded {
+  grid-column: 1 / -1;
+}
+.course-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;
+}
 .course-row.simple {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -240,12 +260,77 @@ html, body {
   display: flex; align-items: center; justify-content: center;
   transition: background 0.15s, border-color 0.15s;
 }
-.course-row.simple.done .checkbox {
+.course-row.simple.done .checkbox,
+.sub-row.done .checkbox {
   background: var(--row-accent);
   border-color: var(--row-accent);
 }
 .checkbox svg { width: 17px; height: 17px; opacity: 0; transition: opacity 0.1s; }
-.course-row.simple.done .checkbox svg { opacity: 1; }
+.course-row.simple.done .checkbox svg,
+.sub-row.done .checkbox svg { opacity: 1; }
+.checkbox.subcount {
+  width: auto;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-dim);
+  border-color: var(--border);
+  background: var(--panel-2);
+}
+.course-block.done .checkbox.subcount {
+  background: var(--row-accent);
+  border-color: var(--row-accent);
+  color: var(--bg);
+}
+.chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  color: var(--text-faint);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s ease, color 0.15s;
+}
+.chevron svg { width: 18px; height: 18px; }
+.chevron.open { transform: rotate(180deg); color: var(--row-accent); }
+.sub-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  border-top: 1px solid transparent;
+}
+.sub-list.open {
+  max-height: 1200px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.sub-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.12s;
+}
+.sub-row:hover { background: var(--panel-2); }
+.sub-row .checkbox {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+}
+.sub-row .checkbox svg { width: 13px; height: 13px; }
+.sub-name {
+  font-size: 15.5px;
+  color: var(--text-dim);
+}
+.sub-row.done .sub-name {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-faint);
+}
 .course-name {
   font-size: 16.5px;
   color: var(--text);
@@ -254,10 +339,23 @@ html, body {
   min-width: 0;
   line-height: 1.3;
 }
+.course-block.done .course-name,
 .course-row.simple.done .course-name {
   color: var(--text-dim);
+}
+.course-row.simple.done .course-name {
   text-decoration: line-through;
   text-decoration-color: var(--text-faint);
+}
+.course-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--text-faint);
+  transition: border-color 0.15s, color 0.15s;
+}
+.course-link:hover {
+  color: var(--row-accent);
+  border-color: var(--row-accent);
 }
 .reset-btn {
   margin-top: 16px;
