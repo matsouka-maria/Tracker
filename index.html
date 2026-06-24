@@ -20,6 +20,8 @@
   --harvard: #d23a4f;
   --mit: #c23b3b;
   --duth: #3f7fe0;
+  --odin: #6f5bd6;
+  --gmarketing: #34a853;
 }
 * { box-sizing: border-box; }
 html, body {
@@ -536,6 +538,124 @@ const DATA = {
         "Educational Research Methodology",
         "Compilers",
         "Advanced Digital Design Applications"
+      ] }
+    ]
+  },
+  odin: {
+    label: "Odin Project",
+    color: "var(--odin)",
+    icon: "🐺",
+    categories: [
+      { title: "Foundations & Full Stack JS", color: "var(--odin)", courses: [
+        { name: "Foundations", subs: [
+          "How This Course Will Work", "Introduction to Web Development", "Motivation and Mindset",
+          "Asking For Help", "Join the Odin Community", "How Does the Web Work?", "Installations",
+          "Text Editors", "Command Line Basics", "Setting up Git", "Introduction to Git", "Git Basics",
+          "Introduction to HTML and CSS", "Elements and Tags", "HTML Boilerplate", "Working with Text",
+          "Lists", "Links and Images", "Commit Messages", "Project: Recipes",
+          "Intro to CSS", "The Cascade", "Inspecting HTML and CSS", "The Box Model", "Block and Inline",
+          "Introduction to Flexbox", "Growing and Shrinking", "Axes", "Alignment", "Project: Landing Page",
+          "Variables and Operators", "Installing Node.js", "Data Types and Conditionals",
+          "JavaScript Developer Tools", "Function Basics", "Problem Solving", "Understanding Errors",
+          "Project: Rock Paper Scissors", "Clean Code", "Loops and Arrays", "DOM Manipulation and Events",
+          "Revisiting Rock Paper Scissors", "Project: Etch-a-Sketch", "Object Basics", "Project: Calculator",
+          "Choose Your Path Forward"
+        ] },
+        { name: "Intermediate HTML and CSS", subs: [
+          "Introduction", "SVG", "Tables", "Default Styles", "CSS Units", "More Text Styles",
+          "More CSS Properties", "Advanced Selectors", "Positioning", "CSS Functions",
+          "Custom Properties", "Browser Compatibility", "Frameworks and Preprocessors",
+          "Form Basics", "Form Validation", "Project: Sign-up Form",
+          "Introduction to Grid", "Creating a Grid", "Positioning Grid Elements",
+          "Advanced Grid Properties", "Using Flexbox and Grid", "Project: Admin Dashboard"
+        ] },
+        { name: "JavaScript", subs: [
+          "How This Course Will Work", "Organizing Code with Objects", "Object Constructors",
+          "Project: Library", "Factory Functions and the Module Pattern", "Project: Tic Tac Toe",
+          "Classes", "ES6 Modules", "npm", "Webpack", "Project: Restaurant Page", "Revisiting Webpack",
+          "JSON", "OOP Principles", "Project: Todo List", "Linting", "Form Validation with JavaScript",
+          "ECMAScript", "Asynchronous Code", "Working with APIs", "Async and Await",
+          "Project: Weather App", "Testing Basics", "Project: Testing Practice", "More Testing",
+          "A Very Brief Intro to CS", "Recursive Methods", "Project: Recursion", "Time Complexity",
+          "Space Complexity", "Common Data Structures and Algorithms", "Project: Linked Lists",
+          "HashMap Data Structure", "Project: HashMap", "Project: Binary Search Trees",
+          "Project: Knights Travails", "A Deeper Look at Git", "Working with Remotes",
+          "Using Git in the Real World", "Project: Battleship", "Conclusion"
+        ] },
+        { name: "Advanced HTML and CSS", subs: [
+          "Transforms", "Transitions", "Keyframes", "Introduction to Web Accessibility",
+          "The Web Content Accessibility Guidelines (WCAG)", "Semantic HTML", "Accessible Colors",
+          "Keyboard Navigation", "Meaningful Text", "WAI-ARIA", "Accessibility Auditing",
+          "Introduction to Responsive Design", "Natural Responsiveness", "Responsive Images",
+          "Media Queries", "Project: Homepage"
+        ] },
+        { name: "React", subs: [
+          "How This Course Will Work", "Introduction To React", "Setting Up A React Environment",
+          "React Components", "What Is JSX?", "Passing Data Between Components", "Rendering Techniques",
+          "Keys In React", "Introduction To State", "More On State", "Project: CV Application",
+          "How To Deal With Side Effects", "Project: Memory Card", "Class Based Components",
+          "Component Lifecycle Methods", "Introduction To React Testing",
+          "Mocking Callbacks And Components", "Type Checking With PropTypes", "React Router",
+          "Fetching Data In React", "Styling React Applications", "Project: Shopping Cart",
+          "Managing State With The Context API", "Reducing State", "Refs And Memoization", "Conclusion"
+        ] },
+        { name: "Databases", subs: [
+          "Databases", "Databases and SQL", "Project: SQL Zoo"
+        ] },
+        { name: "NodeJS", subs: [
+          "Introduction to the Back End", "Introduction: What is NodeJS?", "Getting Started",
+          "Debugging Node", "Project: Basic Informational Site", "Environment Variables",
+          "Introduction to Frameworks", "Introduction to Express", "Routes", "Controllers", "Views",
+          "Project: Mini Message Board", "Deployment", "Forms and Data Handling",
+          "Installing PostgreSQL", "Using PostgreSQL", "Project: Inventory Application",
+          "Authentication Basics", "Project: Members Only", "Prisma ORM", "Project: File Uploader",
+          "API Basics", "API Security", "Project: Blog API", "Testing Routes and Controllers",
+          "Testing Database Operations", "Project: Where's Waldo (A Photo Tagging App)",
+          "Project: Messaging App", "Project: Odin-Book", "Conclusion"
+        ] }
+      ] }
+    ]
+  },
+  gmarketing: {
+    label: "Google Marketing",
+    color: "var(--gmarketing)",
+    icon: "📈",
+    categories: [
+      { title: "Cat Shop Setup", color: "var(--gmarketing)", courses: [
+        { name: "Google Search Console", url: "https://www.youtube.com/playlist?list=PLKoqnv2vTMUOnQn-lNDfT38X9gA_CHxTo", subs: [
+          "What is Search Console & why it matters",
+          "Verify site ownership (domain/URL prefix)",
+          "Submit a sitemap",
+          "Use the URL Inspection tool",
+          "Read the Performance report (clicks, impressions, queries)",
+          "Fix indexing issues (Page Indexing report)",
+          "Check Core Web Vitals / mobile usability"
+        ] },
+        { name: "Google Analytics 4 (GA4)", url: "https://skillshop.withgoogle.com/", subs: [
+          "Understand the event-based data model",
+          "Set up a GA4 property & data stream",
+          "Read core reports (Acquisition, Engagement, Monetization)",
+          "Set up key events / conversions",
+          "Build a simple Exploration report",
+          "Get GA4 Certification"
+        ] },
+        { name: "Google Merchant Center", url: "https://www.classcentral.com/course/skillshop-shopping-ads-certification-86245", subs: [
+          "Create & verify a Merchant Center account",
+          "Understand Shopping ads policies",
+          "Build a product feed (required vs optional attributes)",
+          "Upload & troubleshoot the feed",
+          "Link Merchant Center to Google Ads",
+          "Get Shopping Ads Certification"
+        ] },
+        { name: "Google Ads", url: "https://skillshop.withgoogle.com/googleads/", subs: [
+          "Account structure: campaigns, ad groups, keywords",
+          "Keyword research & match types",
+          "Write Search ads (RSAs)",
+          "Bidding strategies & budgets",
+          "Set up a Shopping/Performance Max campaign",
+          "Read & optimize with performance data",
+          "Get Google Ads Search Certification"
+        ] }
       ] }
     ]
   }
