@@ -20,6 +20,12 @@
 --harvard: #d23a4f;
 --mit: #c23b3b;
 --duth: #3f7fe0;
+--odin: #6f5bd6;
+--gmarketing: #34a853;
+--coursera: #2a73e8;
+--coursera-2: #ff6f61;
+--coursera-3: #00b8d9;
+--coursera-4: #f5a623;
 }
 
 * { box-sizing: border-box; }
@@ -420,6 +426,45 @@ width: 100%;
 
 .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+.fullscreen-btn {
+position: fixed;
+top: 14px;
+right: 14px;
+z-index: 100;
+display: flex;
+align-items: center;
+gap: 6px;
+background: var(--panel-2);
+border: 1px solid var(--border);
+color: var(--text-dim);
+font-size: 12px;
+font-weight: 600;
+padding: 8px 12px;
+border-radius: 8px;
+cursor: pointer;
+font-family: inherit;
+transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.fullscreen-btn:hover {
+border-color: var(--codedex);
+color: var(--text);
+background: var(--panel);
+}
+.fullscreen-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+.fullscreen-btn #fsLabel { display: none; }
+
+@media (min-width: 600px) {
+.fullscreen-btn {
+top: 18px;
+right: 22px;
+padding: 10px 16px;
+font-size: 14px;
+gap: 8px;
+}
+.fullscreen-btn svg { width: 16px; height: 16px; }
+.fullscreen-btn #fsLabel { display: inline; }
+}
+
 /* TABLET & DESKTOP */
 @media (min-width: 600px) {
 .app {
@@ -630,10 +675,14 @@ height: 13px;
 </style>
 </head>
 <body>
+<button class="fullscreen-btn" id="fullscreenBtn" title="Toggle fullscreen">
+<svg id="fsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+<span id="fsLabel">Fullscreen</span>
+</button>
 <div class="app">
 <aside class="sidebar">
 <h1>📚 Learning Tracker</h1>
-<p class="sub">Codedex · Harvard · MIT · DUTH</p>
+<p class="sub">Codedex · Harvard · MIT · DUTH · Odin · Marketing · Coursera</p>
 <div class="top-row">
 <div id="countdownCard"></div>
 <div id="overallCard"></div>
@@ -860,6 +909,157 @@ categories: [
 "Educational Research Methodology",
 "Compilers",
 "Advanced Digital Design Applications"
+] }
+]
+},
+odin: {
+label: "Odin Project",
+color: "var(--odin)",
+icon: "🐺",
+categories: [
+{ title: "Foundations & Full Stack JS", color: "var(--odin)", courses: [
+{ name: "Foundations", subs: [
+"How This Course Will Work", "Introduction to Web Development", "Motivation and Mindset",
+"Asking For Help", "Join the Odin Community", "How Does the Web Work?", "Installations",
+"Text Editors", "Command Line Basics", "Setting up Git", "Introduction to Git", "Git Basics",
+"Introduction to HTML and CSS", "Elements and Tags", "HTML Boilerplate", "Working with Text",
+"Lists", "Links and Images", "Commit Messages", "Project: Recipes",
+"Intro to CSS", "The Cascade", "Inspecting HTML and CSS", "The Box Model", "Block and Inline",
+"Introduction to Flexbox", "Growing and Shrinking", "Axes", "Alignment", "Project: Landing Page",
+"Variables and Operators", "Installing Node.js", "Data Types and Conditionals",
+"JavaScript Developer Tools", "Function Basics", "Problem Solving", "Understanding Errors",
+"Project: Rock Paper Scissors", "Clean Code", "Loops and Arrays", "DOM Manipulation and Events",
+"Revisiting Rock Paper Scissors", "Project: Etch-a-Sketch", "Object Basics", "Project: Calculator",
+"Choose Your Path Forward"
+] },
+{ name: "Intermediate HTML and CSS", subs: [
+"Introduction", "SVG", "Tables", "Default Styles", "CSS Units", "More Text Styles",
+"More CSS Properties", "Advanced Selectors", "Positioning", "CSS Functions",
+"Custom Properties", "Browser Compatibility", "Frameworks and Preprocessors",
+"Form Basics", "Form Validation", "Project: Sign-up Form",
+"Introduction to Grid", "Creating a Grid", "Positioning Grid Elements",
+"Advanced Grid Properties", "Using Flexbox and Grid", "Project: Admin Dashboard"
+] },
+{ name: "JavaScript", subs: [
+"How This Course Will Work", "Organizing Code with Objects", "Object Constructors",
+"Project: Library", "Factory Functions and the Module Pattern", "Project: Tic Tac Toe",
+"Classes", "ES6 Modules", "npm", "Webpack", "Project: Restaurant Page", "Revisiting Webpack",
+"JSON", "OOP Principles", "Project: Todo List", "Linting", "Form Validation with JavaScript",
+"ECMAScript", "Asynchronous Code", "Working with APIs", "Async and Await",
+"Project: Weather App", "Testing Basics", "Project: Testing Practice", "More Testing",
+"A Very Brief Intro to CS", "Recursive Methods", "Project: Recursion", "Time Complexity",
+"Space Complexity", "Common Data Structures and Algorithms", "Project: Linked Lists",
+"HashMap Data Structure", "Project: HashMap", "Project: Binary Search Trees",
+"Project: Knights Travails", "A Deeper Look at Git", "Working with Remotes",
+"Using Git in the Real World", "Project: Battleship", "Conclusion"
+] },
+{ name: "Advanced HTML and CSS", subs: [
+"Transforms", "Transitions", "Keyframes", "Introduction to Web Accessibility",
+"The Web Content Accessibility Guidelines (WCAG)", "Semantic HTML", "Accessible Colors",
+"Keyboard Navigation", "Meaningful Text", "WAI-ARIA", "Accessibility Auditing",
+"Introduction to Responsive Design", "Natural Responsiveness", "Responsive Images",
+"Media Queries", "Project: Homepage"
+] },
+{ name: "React", subs: [
+"How This Course Will Work", "Introduction To React", "Setting Up A React Environment",
+"React Components", "What Is JSX?", "Passing Data Between Components", "Rendering Techniques",
+"Keys In React", "Introduction To State", "More On State", "Project: CV Application",
+"How To Deal With Side Effects", "Project: Memory Card", "Class Based Components",
+"Component Lifecycle Methods", "Introduction To React Testing",
+"Mocking Callbacks And Components", "Type Checking With PropTypes", "React Router",
+"Fetching Data In React", "Styling React Applications", "Project: Shopping Cart",
+"Managing State With The Context API", "Reducing State", "Refs And Memoization", "Conclusion"
+] },
+{ name: "Databases", subs: [
+"Databases", "Databases and SQL", "Project: SQL Zoo"
+] },
+{ name: "NodeJS", subs: [
+"Introduction to the Back End", "Introduction: What is NodeJS?", "Getting Started",
+"Debugging Node", "Project: Basic Informational Site", "Environment Variables",
+"Introduction to Frameworks", "Introduction to Express", "Routes", "Controllers", "Views",
+"Project: Mini Message Board", "Deployment", "Forms and Data Handling",
+"Installing PostgreSQL", "Using PostgreSQL", "Project: Inventory Application",
+"Authentication Basics", "Project: Members Only", "Prisma ORM", "Project: File Uploader",
+"API Basics", "API Security", "Project: Blog API", "Testing Routes and Controllers",
+"Testing Database Operations", "Project: Where's Waldo (A Photo Tagging App)",
+"Project: Messaging App", "Project: Odin-Book", "Conclusion"
+] }
+] }
+]
+},
+gmarketing: {
+label: "Google Marketing",
+color: "var(--gmarketing)",
+icon: "📈",
+categories: [
+{ title: "Cat Shop Setup", color: "var(--gmarketing)", courses: [
+{ name: "Google Search Console", url: "https://www.youtube.com/playlist?list=PLKoqnv2vTMUOnQn-lNDfT38X9gA_CHxTo", subs: [
+"What is Search Console & why it matters",
+"Verify site ownership (domain/URL prefix)",
+"Submit a sitemap",
+"Use the URL Inspection tool",
+"Read the Performance report (clicks, impressions, queries)",
+"Fix indexing issues (Page Indexing report)",
+"Check Core Web Vitals / mobile usability"
+] },
+{ name: "Google Analytics 4 (GA4)", url: "https://skillshop.withgoogle.com/", subs: [
+"Understand the event-based data model",
+"Set up a GA4 property & data stream",
+"Read core reports (Acquisition, Engagement, Monetization)",
+"Set up key events / conversions",
+"Build a simple Exploration report",
+"Get GA4 Certification"
+] },
+{ name: "Google Merchant Center", url: "https://www.classcentral.com/course/skillshop-shopping-ads-certification-86245", subs: [
+"Create & verify a Merchant Center account",
+"Understand Shopping ads policies",
+"Build a product feed (required vs optional attributes)",
+"Upload & troubleshoot the feed",
+"Link Merchant Center to Google Ads",
+"Get Shopping Ads Certification"
+] },
+{ name: "Google Ads", url: "https://skillshop.withgoogle.com/googleads/", subs: [
+"Account structure: campaigns, ad groups, keywords",
+"Keyword research & match types",
+"Write Search ads (RSAs)",
+"Bidding strategies & budgets",
+"Set up a Shopping/Performance Max campaign",
+"Read & optimize with performance data",
+"Get Google Ads Search Certification"
+] }
+] }
+]
+},
+coursera: {
+label: "Coursera Certs",
+color: "var(--coursera)",
+icon: "📜",
+categories: [
+{ title: "Google Professional Certificates", color: "var(--coursera)", courses: [
+{ name: "Google AI", url: "https://www.coursera.org/professional-certificates/google-ai" },
+{ name: "Google Data Analytics", url: "https://www.coursera.org/professional-certificates/google-data-analytics" },
+{ name: "Google Advanced Data Analytics", url: "https://www.coursera.org/professional-certificates/google-advanced-data-analytics" },
+{ name: "Google Project Management", url: "https://www.coursera.org/professional-certificates/google-project-management" },
+{ name: "Google IT Support", url: "https://www.coursera.org/professional-certificates/google-it-support" },
+{ name: "Google IT Automation with Python", url: "https://www.coursera.org/professional-certificates/google-it-automation-with-python" },
+{ name: "Google Cybersecurity", url: "https://www.coursera.org/professional-certificates/google-cybersecurity" },
+{ name: "Google UX Design", url: "https://www.coursera.org/professional-certificates/google-ux-design" },
+{ name: "Google Digital Marketing & E-commerce", url: "https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce" },
+{ name: "Google Business Intelligence", url: "https://www.coursera.org/professional-certificates/google-business-intelligence" }
+] },
+{ title: "IBM Certificates", color: "var(--coursera-3)", courses: [
+{ name: "IBM Data Science", url: "https://www.coursera.org/professional-certificates/ibm-data-science" },
+{ name: "IBM Full Stack Software Developer", url: "https://www.coursera.org/professional-certificates/ibm-full-stack-javascript" },
+{ name: "IBM Data Analyst", url: "https://www.coursera.org/professional-certificates/ibm-data-analyst" },
+{ name: "IBM Cybersecurity Analyst", url: "https://www.coursera.org/professional-certificates/ibm-cybersecurity-analyst" }
+] },
+{ title: "Meta Certificates", color: "var(--coursera-2)", courses: [
+{ name: "Meta Front-End Developer", url: "https://www.coursera.org/professional-certificates/meta-front-end-developer" },
+{ name: "Meta Data Analyst", url: "https://www.coursera.org/professional-certificates/meta-data-analyst" }
+] },
+{ title: "Microsoft Certificates", color: "var(--coursera-4)", courses: [
+{ name: "Microsoft Power BI Data Analyst", url: "https://www.coursera.org/professional-certificates/microsoft-power-bi-data-analyst" },
+{ name: "Microsoft IT Support Specialist", url: "https://www.coursera.org/professional-certificates/microsoft-it-support-specialist" }
 ] }
 ]
 }
@@ -1142,6 +1342,28 @@ if (resetBtn) resetSchool(resetBtn.dataset.reset);
 
 renderAll();
 setInterval(renderCountdown, 1000 * 60 * 5);
+
+const fsBtn = document.getElementById("fullscreenBtn");
+const fsLabel = document.getElementById("fsLabel");
+const fsIcon = document.getElementById("fsIcon");
+const ENTER_ICON = '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>';
+const EXIT_ICON = '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>';
+fsBtn.addEventListener("click", () => {
+if (!document.fullscreenElement) {
+document.documentElement.requestFullscreen().catch(() => {});
+} else {
+document.exitFullscreen();
+}
+});
+document.addEventListener("fullscreenchange", () => {
+if (document.fullscreenElement) {
+fsLabel.textContent = "Exit";
+fsIcon.innerHTML = EXIT_ICON;
+} else {
+fsLabel.textContent = "Fullscreen";
+fsIcon.innerHTML = ENTER_ICON;
+}
+});
 </script>
 </body>
 </html>
