@@ -6,1019 +6,1142 @@
 <title>Tracker</title>
 <style>
 :root {
-  --bg: #0f0e1a;
-  --panel: #1a1830;
-  --panel-2: #211e3d;
-  --border: #322d54;
-  --text: #ece9f7;
-  --text-dim: #9a93bd;
-  --text-faint: #6b6490;
-  --codedex: #b388ff;
-  --codedex-2: #4dd0c4;
-  --codedex-3: #ff79b0;
-  --codedex-4: #ffd166;
-  --harvard: #d23a4f;
-  --mit: #c23b3b;
-  --duth: #3f7fe0;
-  --odin: #6f5bd6;
-  --gmarketing: #34a853;
-  --coursera: #2a73e8;
-  --coursera-2: #ff6f61;
-  --coursera-3: #00b8d9;
-  --coursera-4: #f5a623;
+--bg: #0f0e1a;
+--panel: #1a1830;
+--panel-2: #211e3d;
+--border: #322d54;
+--text: #ece9f7;
+--text-dim: #9a93bd;
+--text-faint: #6b6490;
+--codedex: #b388ff;
+--codedex-2: #4dd0c4;
+--codedex-3: #ff79b0;
+--codedex-4: #ffd166;
+--harvard: #d23a4f;
+--mit: #c23b3b;
+--duth: #3f7fe0;
 }
+
 * { box-sizing: border-box; }
+
 html, body {
-  margin: 0; padding: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  min-height: 100vh;
+margin: 0; padding: 0;
+background: var(--bg);
+color: var(--text);
+font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+min-height: 100vh;
 }
+
 .app {
-  display: grid;
-  grid-template-columns: 400px 1fr;
-  min-height: 100vh;
+display: grid;
+grid-template-columns: 1fr;
+min-height: 100vh;
 }
-/* SIDEBAR */
+
+/* SIDEBAR - Mobile First */
 .sidebar {
-  background: var(--panel);
-  border-right: 1px solid var(--border);
-  padding: 28px 26px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+background: var(--panel);
+border-bottom: 1px solid var(--border);
+padding: 20px 16px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+order: -1;
 }
+
+.sidebar h1 {
+font-size: 24px;
+margin: 0 0 4px 0;
+font-weight: 800;
+letter-spacing: 0.2px;
+}
+
+.sidebar .sub {
+margin: 0 0 16px 0;
+font-size: 14px;
+color: var(--text-faint);
+}
+
 .top-row {
-  display: flex;
-  gap: 12px;
-  margin: 0 0 12px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 12px;
 }
-.top-row > div { flex: 1; min-width: 0; }
-.countdown-card {
-  background: linear-gradient(135deg, var(--panel-2), var(--panel));
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 18px 14px;
-  text-align: center;
-  height: 100%;
-}
-.countdown-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--text-faint);
-  font-weight: 700;
-  margin-bottom: 10px;
-  white-space: nowrap;
-}
-.countdown-big {
-  font-size: 38px;
-  font-weight: 800;
-  color: var(--codedex-4);
-  line-height: 1;
-}
-.overall-card .countdown-big {
-  color: var(--codedex-2);
-}
-.countdown-unit-label {
-  font-size: 12px;
-  color: var(--text-faint);
-  margin-top: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}
-.countdown-date {
-  margin-top: 10px;
-  font-size: 11.5px;
-  color: var(--text-faint);
-}
-.countdown-done {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--codedex-4);
-}
+
 .school-btn {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 18px;
-  padding: 20px 20px;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.15s, border-color 0.15s;
-  color: var(--text);
-  font-family: inherit;
-  width: 100%;
+display: flex;
+align-items: center;
+gap: 12px;
+background: transparent;
+border: 1px solid transparent;
+border-radius: 14px;
+padding: 14px 14px;
+cursor: pointer;
+text-align: left;
+transition: background 0.15s, border-color 0.15s;
+color: var(--text);
+font-family: inherit;
+width: 100%;
+min-width: 0;
 }
+
 .school-btn:hover {
-  background: var(--panel-2);
+background: var(--panel-2);
 }
+
 .school-btn.active {
-  background: var(--panel-2);
-  border-color: var(--ring-color);
+background: var(--panel-2);
+border-color: var(--ring-color);
 }
+
 .ring-wrap {
-  position: relative;
-  width: 70px;
-  height: 70px;
-  flex-shrink: 0;
+position: relative;
+width: 60px;
+height: 60px;
+flex-shrink: 0;
 }
+
 .ring-wrap svg { transform: rotate(-90deg); }
+
 .ring-bg { fill: none; stroke: var(--border); stroke-width: 5; }
+
 .ring-fg {
-  fill: none;
-  stroke: var(--ring-color);
-  stroke-width: 5;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.4s ease;
+fill: none;
+stroke: var(--ring-color);
+stroke-width: 5;
+stroke-linecap: round;
+transition: stroke-dashoffset 0.4s ease;
 }
+
 .ring-pct {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ring-color);
+position: absolute;
+top: 0; left: 0; width: 100%; height: 100%;
+display: flex; align-items: center; justify-content: center;
+font-size: 13px;
+font-weight: 700;
+color: var(--ring-color);
 }
-.school-name { font-size: 21px; font-weight: 700; }
-.school-meta { font-size: 14.5px; color: var(--text-faint); margin-top: 4px; }
+
+.school-name { font-size: 18px; font-weight: 700; }
+
+.school-meta { font-size: 13px; color: var(--text-faint); margin-top: 2px; }
+
 .sidebar-footer {
-  margin-top: auto;
-  padding: 20px 10px 6px;
-  font-size: 13.5px;
-  color: var(--text-faint);
-  border-top: 1px solid var(--border);
+margin-top: 12px;
+padding: 12px 0;
+font-size: 12px;
+color: var(--text-faint);
+border-top: 1px solid var(--border);
 }
+
+.countdown-card {
+background: linear-gradient(135deg, var(--panel-2), var(--panel));
+border: 1px solid var(--border);
+border-radius: 12px;
+padding: 14px 12px;
+text-align: center;
+height: 100%;
+}
+
+.countdown-label {
+font-size: 11px;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: var(--text-faint);
+font-weight: 700;
+margin-bottom: 8px;
+}
+
+.countdown-big {
+font-size: 32px;
+font-weight: 800;
+color: var(--codedex-4);
+line-height: 1;
+}
+
+.overall-card .countdown-big {
+color: var(--codedex-2);
+}
+
+.countdown-unit-label {
+font-size: 11px;
+color: var(--text-faint);
+margin-top: 6px;
+text-transform: uppercase;
+letter-spacing: 0.6px;
+}
+
 /* MAIN */
 .main {
-  padding: 50px 64px;
-  max-width: none;
+padding: 28px 16px;
 }
+
 .main-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-  gap: 16px;
+display: flex;
+align-items: baseline;
+justify-content: space-between;
+margin-bottom: 8px;
+flex-wrap: wrap;
+gap: 12px;
 }
+
 .main-header h2 {
-  font-size: 52px;
-  margin: 0;
-  font-weight: 800;
-  color: var(--accent);
+font-size: 32px;
+margin: 0;
+font-weight: 800;
+color: var(--accent);
 }
+
 .overall-pct {
-  font-size: 23px;
-  color: var(--text-dim);
-  font-weight: 600;
+font-size: 16px;
+color: var(--text-dim);
+font-weight: 600;
 }
+
 .overall-pct span { color: var(--accent); font-weight: 800; }
+
 .progress-track {
-  width: 100%;
-  height: 14px;
-  background: var(--panel-2);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 24px 0 52px;
-  border: 1px solid var(--border);
+width: 100%;
+height: 10px;
+background: var(--panel-2);
+border-radius: 8px;
+overflow: hidden;
+margin: 16px 0 32px;
+border: 1px solid var(--border);
 }
+
 .progress-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 10px;
-  transition: width 0.4s ease;
+height: 100%;
+background: var(--accent);
+border-radius: 8px;
+transition: width 0.4s ease;
 }
+
 .category {
-  margin-bottom: 46px;
+margin-bottom: 32px;
 }
+
 .category-title {
-  font-size: 19px;
-  text-transform: uppercase;
-  letter-spacing: 1.6px;
-  color: var(--accent);
-  margin-bottom: 20px;
-  font-weight: 800;
-  opacity: 0.9;
+font-size: 14px;
+text-transform: uppercase;
+letter-spacing: 1.4px;
+color: var(--accent);
+margin-bottom: 14px;
+font-weight: 800;
+opacity: 0.9;
 }
+
 .course-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 14px;
-  align-items: start;
+display: grid;
+grid-template-columns: 1fr;
+gap: 12px;
+align-items: start;
 }
+
 .course-block {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: border-color 0.15s, background 0.15s;
+background: var(--panel);
+border: 1px solid var(--border);
+border-radius: 12px;
+overflow: hidden;
+transition: border-color 0.15s, background 0.15s;
 }
+
 .course-block:hover { border-color: var(--row-accent); }
+
 .course-block.done { border-color: var(--row-accent); }
+
 .course-block.expanded {
-  grid-column: 1 / -1;
+grid-column: 1 / -1;
 }
+
 .course-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  cursor: pointer;
-  user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 14px 14px;
+cursor: pointer;
+user-select: none;
 }
+
 .course-row.simple {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  cursor: pointer;
-  user-select: none;
-  transition: border-color 0.15s, background 0.15s;
+background: var(--panel);
+border: 1px solid var(--border);
+border-radius: 12px;
+transition: border-color 0.15s, background 0.15s;
 }
+
 .course-row.simple:hover { border-color: var(--row-accent); }
+
 .course-row.simple.done {
-  background: var(--panel-2);
-  border-color: var(--row-accent);
+background: var(--panel-2);
+border-color: var(--row-accent);
 }
+
 .checkbox {
-  width: 24px; height: 24px;
-  border-radius: 7px;
-  border: 2.5px solid var(--text-faint);
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.15s, border-color 0.15s;
+width: 24px; height: 24px;
+border-radius: 6px;
+border: 2.5px solid var(--text-faint);
+flex-shrink: 0;
+display: flex; align-items: center; justify-content: center;
+transition: background 0.15s, border-color 0.15s;
 }
+
 .course-row.simple.done .checkbox,
 .sub-row.done .checkbox {
-  background: var(--row-accent);
-  border-color: var(--row-accent);
+background: var(--row-accent);
+border-color: var(--row-accent);
 }
-.checkbox svg { width: 14px; height: 14px; opacity: 0; transition: opacity 0.1s; }
+
+.checkbox svg { width: 15px; height: 15px; opacity: 0; transition: opacity 0.1s; }
+
 .course-row.simple.done .checkbox svg,
 .sub-row.done .checkbox svg { opacity: 1; }
+
 .checkbox.subcount {
-  width: auto;
-  min-width: 24px;
-  height: 24px;
-  padding: 0 7px;
-  border-radius: 7px;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--text-dim);
-  border-color: var(--border);
-  background: var(--panel-2);
+width: auto;
+min-width: 24px;
+height: 24px;
+padding: 0 6px;
+border-radius: 6px;
+font-size: 11px;
+font-weight: 700;
+color: var(--text-dim);
+border-color: var(--border);
+background: var(--panel-2);
 }
+
 .course-block.done .checkbox.subcount {
-  background: var(--row-accent);
-  border-color: var(--row-accent);
-  color: var(--bg);
+background: var(--row-accent);
+border-color: var(--row-accent);
+color: var(--bg);
 }
+
 .chevron {
-  margin-left: auto;
-  flex-shrink: 0;
-  width: 18px; height: 18px;
-  color: var(--text-faint);
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.2s ease, color 0.15s;
+margin-left: auto;
+flex-shrink: 0;
+width: 18px; height: 18px;
+color: var(--text-faint);
+display: flex; align-items: center; justify-content: center;
+transition: transform 0.2s ease, color 0.15s;
 }
-.chevron svg { width: 17px; height: 17px; }
+
+.chevron svg { width: 16px; height: 16px; }
+
 .chevron.open { transform: rotate(180deg); color: var(--row-accent); }
+
 .sub-list {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease;
-  border-top: 1px solid transparent;
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.25s ease;
+border-top: 1px solid transparent;
 }
+
 .sub-list.open {
-  max-height: 1200px;
-  border-top: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+max-height: 1200px;
+border-top: 1px solid var(--border);
+display: grid;
+grid-template-columns: 1fr;
 }
+
 .sub-row {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 12px 16px;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.12s;
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 10px 14px;
+cursor: pointer;
+user-select: none;
+transition: background 0.12s;
 }
+
 .sub-row:hover { background: var(--panel-2); }
+
 .sub-row .checkbox {
-  width: 20px; height: 20px;
-  border-radius: 6px;
+width: 20px; height: 20px;
+border-radius: 4px;
 }
+
 .sub-row .checkbox svg { width: 12px; height: 12px; }
+
 .sub-name {
-  font-size: 15px;
-  color: var(--text-dim);
+font-size: 14px;
+color: var(--text-dim);
 }
+
 .sub-row.done .sub-name {
-  color: var(--text-faint);
-  text-decoration: line-through;
-  text-decoration-color: var(--text-faint);
+color: var(--text-faint);
+text-decoration: line-through;
+text-decoration-color: var(--text-faint);
 }
+
 .course-name {
-  font-size: 16px;
-  color: var(--text);
-  font-weight: 600;
-  flex: 1;
-  min-width: 0;
-  line-height: 1.3;
+font-size: 15px;
+color: var(--text);
+font-weight: 600;
+flex: 1;
+min-width: 0;
+line-height: 1.3;
 }
+
 .course-block.done .course-name,
 .course-row.simple.done .course-name {
-  color: var(--text-dim);
+color: var(--text-dim);
 }
+
 .course-row.simple.done .course-name {
-  text-decoration: line-through;
-  text-decoration-color: var(--text-faint);
+text-decoration: line-through;
+text-decoration-color: var(--text-faint);
 }
+
 .course-link {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px dashed var(--text-faint);
-  transition: border-color 0.15s, color 0.15s;
+color: inherit;
+text-decoration: none;
+border-bottom: 1px dashed var(--text-faint);
+transition: border-color 0.15s, color 0.15s;
 }
+
 .course-link:hover {
-  color: var(--row-accent);
-  border-color: var(--row-accent);
+color: var(--row-accent);
+border-color: var(--row-accent);
 }
+
 .reset-btn {
-  margin-top: 16px;
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--text-faint);
-  font-size: 15px;
-  padding: 12px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: inherit;
+margin-top: 16px;
+background: none;
+border: 1px solid var(--border);
+color: var(--text-faint);
+font-size: 14px;
+padding: 10px 16px;
+border-radius: 8px;
+cursor: pointer;
+font-family: inherit;
+width: 100%;
 }
+
 .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
-.fullscreen-btn {
-  position: fixed;
-  top: 18px;
-  right: 22px;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--panel-2);
-  border: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 14px;
-  font-weight: 600;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: inherit;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+
+/* TABLET & DESKTOP */
+@media (min-width: 600px) {
+.app {
+grid-template-columns: 350px 1fr;
 }
-.fullscreen-btn:hover {
-  border-color: var(--codedex);
-  color: var(--text);
-  background: var(--panel);
+
+.sidebar {
+flex-direction: column;
+border-right: 1px solid var(--border);
+border-bottom: none;
+padding: 32px 20px;
+gap: 14px;
+order: initial;
 }
-.fullscreen-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); }
-  .school-btn { min-width: 260px; }
-  .main { padding: 30px 24px; }
-  .main-header h2 { font-size: 36px; }
+
+.sidebar h1 {
+font-size: 26px;
+margin: 0 0 6px 6px;
+}
+
+.sidebar .sub {
+margin: 0 0 24px 6px;
+font-size: 15px;
+}
+
+.school-btn {
+padding: 16px 16px;
+gap: 14px;
+}
+
+.ring-wrap {
+width: 64px;
+height: 64px;
+}
+
+.ring-pct {
+font-size: 14px;
+}
+
+.school-name { font-size: 19px; }
+
+.school-meta { font-size: 13.5px; }
+
+.main {
+padding: 40px 48px;
+}
+
+.main-header h2 {
+font-size: 38px;
+}
+
+.countdown-card {
+padding: 16px 14px;
+}
+
+.countdown-big {
+font-size: 36px;
+}
+
+.course-grid {
+grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.course-row {
+padding: 16px 16px;
+gap: 14px;
+}
+
+.sub-list.open {
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.checkbox {
+width: 26px;
+height: 26px;
+}
+
+.sub-row {
+padding: 12px 16px;
+}
+
+.sub-row .checkbox {
+width: 22px;
+height: 22px;
+}
+
+.reset-btn {
+width: auto;
+}
+}
+
+@media (min-width: 1024px) {
+.sidebar {
+padding: 40px 26px;
+}
+
+.sidebar h1 {
+font-size: 28px;
+margin: 0 0 6px 8px;
+}
+
+.sidebar .sub {
+margin: 0 0 32px 8px;
+font-size: 16px;
+}
+
+.top-row {
+grid-template-columns: 1fr;
+gap: 14px;
+}
+
+.school-btn {
+padding: 20px 20px;
+gap: 20px;
+}
+
+.ring-wrap {
+width: 70px;
+height: 70px;
+}
+
+.ring-pct {
+font-size: 15px;
+}
+
+.school-name { font-size: 21px; }
+
+.school-meta { font-size: 14.5px; margin-top: 4px; }
+
+.main {
+padding: 50px 64px;
+}
+
+.main-header h2 {
+font-size: 44px;
+}
+
+.overall-pct {
+font-size: 20px;
+}
+
+.progress-track {
+margin: 22px 0 48px;
+height: 12px;
+}
+
+.category-title {
+font-size: 17px;
+letter-spacing: 1.6px;
+margin-bottom: 18px;
+}
+
+.course-grid {
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 16px;
+}
+
+.course-row {
+padding: 18px 20px;
+gap: 14px;
+}
+
+.sub-list.open {
+grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+gap: 16px;
+padding: 16px;
+}
+
+.sub-row {
+padding: 13px 20px;
+}
+
+.checkbox {
+width: 28px;
+height: 28px;
+}
+
+.checkbox.subcount {
+min-width: 28px;
+height: 28px;
+padding: 0 8px;
+font-size: 12.5px;
+}
+
+.sub-row .checkbox {
+width: 22px;
+height: 22px;
+}
+
+.course-name {
+font-size: 16.5px;
+}
+
+.sub-name {
+font-size: 15.5px;
+}
+
+.checkbox svg {
+width: 17px;
+height: 17px;
+}
+
+.sub-row .checkbox svg {
+width: 13px;
+height: 13px;
+}
 }
 </style>
 </head>
 <body>
-<button class="fullscreen-btn" id="fullscreenBtn" title="Toggle fullscreen">
-  <svg id="fsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
-  <span id="fsLabel">Fullscreen</span>
-</button>
 <div class="app">
-  <aside class="sidebar">
-    <div class="top-row">
-      <div id="countdownCard"></div>
-      <div id="overallCard"></div>
-    </div>
-    <div id="sidebarList"></div>
-    <div class="sidebar-footer">Progress saved automatically in this browser.</div>
-  </aside>
-  <main class="main" id="mainPanel"></main>
+<aside class="sidebar">
+<h1>📚 Learning Tracker</h1>
+<p class="sub">Codedex · Harvard · MIT · DUTH</p>
+<div class="top-row">
+<div id="countdownCard"></div>
+<div id="overallCard"></div>
+</div>
+<div id="sidebarList"></div>
+<div class="sidebar-footer">Progress saved automatically in this browser.</div>
+</aside>
+<main class="main" id="mainPanel"></main>
 </div>
 
 <script>
 const DATA = {
-  codedex: {
-    label: "Codedex",
-    color: "var(--codedex)",
-    icon: "🧩",
-    categories: [
-      { title: "Python & Data", color: "var(--codedex)", courses: [
-        "Python (Beginner)",
-        "Intermediate Python",
-        "Pandas",
-        "NumPy",
-        "Matplotlib",
-        "Machine Learning",
-        "GenAI",
-        "SQL"
-      ] },
-      { title: "Web Development", color: "var(--codedex-2)", courses: [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Intermediate JavaScript",
-        "React",
-        "Node.js",
-        "p5.js"
-      ] },
-      { title: "Tools & Fundamentals", color: "var(--codedex-3)", courses: [
-        "Command Line",
-        "Git & GitHub",
-        "GitHub Copilot",
-        "Data Structures & Algorithms",
-        "UI/UX Design"
-      ] },
-      { title: "Other Languages & Game Dev", color: "var(--codedex-4)", courses: [
-        "C#",
-        "C++",
-        "Java",
-        "Lua",
-        "Phaser"
-      ] }
-    ]
-  },
-  harvard: {
-    label: "Harvard",
-    color: "var(--harvard)",
-    icon: "🎓",
-    categories: [
-      { title: "CS50 Series", color: "var(--harvard)", courses: [
-        { name: "CS50", url: "https://cs50.harvard.edu/x/", subs: [
-          "Week 0: Scratch", "Week 1: C", "Week 2: Arrays", "Week 3: Algorithms",
-          "Week 4: Memory", "Week 5: Data Structures", "Week 6: Python",
-          "Week 7: SQL", "Week 7: Artificial Intelligence", "Week 8: HTML, CSS, JavaScript",
-          "Week 9: Flask", "Week 10: The End"
-        ] },
-        { name: "Python (CS50P)", url: "https://cs50.harvard.edu/python/", subs: [
-          "Week 0: Functions, Variables", "Week 1: Conditionals", "Week 2: Loops",
-          "Week 3: Exceptions", "Week 4: Libraries", "Week 5: Unit Tests",
-          "Week 6: File I/O", "Week 7: Regular Expressions",
-          "Week 8: Object-Oriented Programming", "Week 9: Et Cetera"
-        ] },
-        { name: "Web (CS50W)", url: "https://cs50.harvard.edu/web/", subs: [
-          "Week 0: HTML, CSS", "Week 1: Git", "Week 2: Python", "Week 3: Django",
-          "Week 4: SQL, Models, and Migrations", "Week 5: JavaScript",
-          "Week 6: User Interfaces", "Week 7: Testing, CI/CD",
-          "Week 8: Scalability and Security"
-        ] },
-        { name: "SQL (CS50 SQL)", url: "https://cs50.harvard.edu/sql/", subs: [
-          "Week 0: Querying", "Week 1: Relating", "Week 2: Designing",
-          "Week 3: Writing", "Week 4: Viewing", "Week 5: Optimizing"
-        ] },
-        { name: "AI (CS50 AI)", url: "https://cs50.harvard.edu/ai/", subs: [
-          "Week 0: Search", "Week 1: Knowledge", "Week 2: Uncertainty",
-          "Week 3: Optimization", "Week 4: Learning", "Week 5: Neural Networks",
-          "Week 6: Language"
-        ] },
-        { name: "Cybersecurity (CS50 Cyber)", url: "https://cs50.harvard.edu/cybersecurity/", subs: [
-          "Week 0: Securing Accounts", "Week 1: Securing Data",
-          "Week 2: Securing Systems", "Week 3: Securing Software",
-          "Week 4: Preserving Privacy"
-        ] }
-      ] }
-    ]
-  },
-  mit: {
-    label: "MIT OCW",
-    color: "var(--mit)",
-    icon: "🏛️",
-    categories: [
-      { title: "Open Courseware", color: "var(--mit)", courses: [
-        { name: "Intro to CS & Programming in Python (6.0001)", url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/", subs: [
-          "Lec 1: What is Computation?", "Lec 2: Branching and Iteration",
-          "Lec 3: String Manipulation, Bisection", "Lec 4: Decomposition, Functions",
-          "Lec 5: Tuples, Lists, Mutability", "Lec 6: Recursion, Dictionaries",
-          "Lec 7: Testing, Debugging, Exceptions", "Lec 8: Object Oriented Programming",
-          "Lec 9: Python Classes and Inheritance", "Lec 10: Program Efficiency, Pt. 1",
-          "Lec 11: Program Efficiency, Pt. 2", "Lec 12: Searching and Sorting"
-        ] },
-        { name: "Introduction to Algorithms (6.006)", url: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/", subs: [
-          "Lec 1: Introduction", "Lec 2: Data Structures", "Lec 3: Sorting",
-          "Lec 4: Hashing", "Lec 5: Linear Sorting", "Lec 6: Binary Trees, Pt. 1",
-          "Lec 7: Binary Trees, Pt. 2: AVL", "Lec 8: Binary Heaps",
-          "Lec 9: Breadth-First Search", "Lec 10: Depth-First Search",
-          "Lec 11: Weighted Shortest Paths", "Lec 12: Bellman-Ford",
-          "Lec 13: Dijkstra's Algorithm", "Lec 14: Johnson's Algorithm",
-          "Lec 15: Recursive Algorithms", "Lec 16: Dynamic Programming"
-        ] },
-        { name: "Computer System Engineering (6.033)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/", subs: [
-          "Week 1: Operating Systems Pt. I", "Week 2: Operating Systems Pt. II",
-          "Week 3: Operating Systems Pt. III", "Week 4: Operating Systems Pt. IV",
-          "Week 5: Networking Pt. I", "Week 6: Networking Pt. II",
-          "Week 7: Networking Pt. III", "Week 8: Distributed Systems Pt. I",
-          "Week 9: Distributed Systems Pt. II", "Week 10: Distributed Systems Pt. III",
-          "Week 11: Security Pt. I", "Week 12: Security Pt. II"
-        ] },
-        { name: "Artificial Intelligence (6.034)", url: "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/", subs: [
-          "Lec 1: Introduction and Scope", "Lec 2: Reasoning: Goal Trees",
-          "Lec 3: Rule-Based Expert Systems", "Lec 4: Search: DFS, Hill Climbing, Beam",
-          "Lec 5: Search: Optimal, Branch and Bound, A*", "Lec 6: Search: Games, Minimax, Alpha-Beta",
-          "Lec 7: Constraints: Interpreting Line Drawings", "Lec 8: Constraints: Search, Domain Reduction",
-          "Lec 9: Constraints: Visual Object Recognition", "Lec 10: Learning: Nearest Neighbors",
-          "Lec 11: Learning: Identification Trees", "Lec 12: Neural Nets"
-        ] }
-      ] }
-    ]
-  },
-  duth: {
-    label: "DUTH",
-    color: "var(--duth)",
-    icon: "🏫",
-    categories: [
-      { title: "Coursework", color: "var(--duth)", courses: [
-        "Calculus 1",
-        "Calculus 2",
-        "Algorithms and Data Structures",
-        "Databases",
-        "Java",
-        "Object-Oriented Programming",
-        "Scientific Computing",
-        "Applied Mathematics",
-        "Operating Systems",
-        "Educational Research Methodology",
-        "Compilers",
-        "Advanced Digital Design Applications"
-      ] }
-    ]
-  },
-  odin: {
-    label: "Odin Project",
-    color: "var(--odin)",
-    icon: "🐺",
-    categories: [
-      { title: "Foundations & Full Stack JS", color: "var(--odin)", courses: [
-        { name: "Foundations", subs: [
-          "How This Course Will Work", "Introduction to Web Development", "Motivation and Mindset",
-          "Asking For Help", "Join the Odin Community", "How Does the Web Work?", "Installations",
-          "Text Editors", "Command Line Basics", "Setting up Git", "Introduction to Git", "Git Basics",
-          "Introduction to HTML and CSS", "Elements and Tags", "HTML Boilerplate", "Working with Text",
-          "Lists", "Links and Images", "Commit Messages", "Project: Recipes",
-          "Intro to CSS", "The Cascade", "Inspecting HTML and CSS", "The Box Model", "Block and Inline",
-          "Introduction to Flexbox", "Growing and Shrinking", "Axes", "Alignment", "Project: Landing Page",
-          "Variables and Operators", "Installing Node.js", "Data Types and Conditionals",
-          "JavaScript Developer Tools", "Function Basics", "Problem Solving", "Understanding Errors",
-          "Project: Rock Paper Scissors", "Clean Code", "Loops and Arrays", "DOM Manipulation and Events",
-          "Revisiting Rock Paper Scissors", "Project: Etch-a-Sketch", "Object Basics", "Project: Calculator",
-          "Choose Your Path Forward"
-        ] },
-        { name: "Intermediate HTML and CSS", subs: [
-          "Introduction", "SVG", "Tables", "Default Styles", "CSS Units", "More Text Styles",
-          "More CSS Properties", "Advanced Selectors", "Positioning", "CSS Functions",
-          "Custom Properties", "Browser Compatibility", "Frameworks and Preprocessors",
-          "Form Basics", "Form Validation", "Project: Sign-up Form",
-          "Introduction to Grid", "Creating a Grid", "Positioning Grid Elements",
-          "Advanced Grid Properties", "Using Flexbox and Grid", "Project: Admin Dashboard"
-        ] },
-        { name: "JavaScript", subs: [
-          "How This Course Will Work", "Organizing Code with Objects", "Object Constructors",
-          "Project: Library", "Factory Functions and the Module Pattern", "Project: Tic Tac Toe",
-          "Classes", "ES6 Modules", "npm", "Webpack", "Project: Restaurant Page", "Revisiting Webpack",
-          "JSON", "OOP Principles", "Project: Todo List", "Linting", "Form Validation with JavaScript",
-          "ECMAScript", "Asynchronous Code", "Working with APIs", "Async and Await",
-          "Project: Weather App", "Testing Basics", "Project: Testing Practice", "More Testing",
-          "A Very Brief Intro to CS", "Recursive Methods", "Project: Recursion", "Time Complexity",
-          "Space Complexity", "Common Data Structures and Algorithms", "Project: Linked Lists",
-          "HashMap Data Structure", "Project: HashMap", "Project: Binary Search Trees",
-          "Project: Knights Travails", "A Deeper Look at Git", "Working with Remotes",
-          "Using Git in the Real World", "Project: Battleship", "Conclusion"
-        ] },
-        { name: "Advanced HTML and CSS", subs: [
-          "Transforms", "Transitions", "Keyframes", "Introduction to Web Accessibility",
-          "The Web Content Accessibility Guidelines (WCAG)", "Semantic HTML", "Accessible Colors",
-          "Keyboard Navigation", "Meaningful Text", "WAI-ARIA", "Accessibility Auditing",
-          "Introduction to Responsive Design", "Natural Responsiveness", "Responsive Images",
-          "Media Queries", "Project: Homepage"
-        ] },
-        { name: "React", subs: [
-          "How This Course Will Work", "Introduction To React", "Setting Up A React Environment",
-          "React Components", "What Is JSX?", "Passing Data Between Components", "Rendering Techniques",
-          "Keys In React", "Introduction To State", "More On State", "Project: CV Application",
-          "How To Deal With Side Effects", "Project: Memory Card", "Class Based Components",
-          "Component Lifecycle Methods", "Introduction To React Testing",
-          "Mocking Callbacks And Components", "Type Checking With PropTypes", "React Router",
-          "Fetching Data In React", "Styling React Applications", "Project: Shopping Cart",
-          "Managing State With The Context API", "Reducing State", "Refs And Memoization", "Conclusion"
-        ] },
-        { name: "Databases", subs: [
-          "Databases", "Databases and SQL", "Project: SQL Zoo"
-        ] },
-        { name: "NodeJS", subs: [
-          "Introduction to the Back End", "Introduction: What is NodeJS?", "Getting Started",
-          "Debugging Node", "Project: Basic Informational Site", "Environment Variables",
-          "Introduction to Frameworks", "Introduction to Express", "Routes", "Controllers", "Views",
-          "Project: Mini Message Board", "Deployment", "Forms and Data Handling",
-          "Installing PostgreSQL", "Using PostgreSQL", "Project: Inventory Application",
-          "Authentication Basics", "Project: Members Only", "Prisma ORM", "Project: File Uploader",
-          "API Basics", "API Security", "Project: Blog API", "Testing Routes and Controllers",
-          "Testing Database Operations", "Project: Where's Waldo (A Photo Tagging App)",
-          "Project: Messaging App", "Project: Odin-Book", "Conclusion"
-        ] }
-      ] }
-    ]
-  },
-  gmarketing: {
-    label: "Google Marketing",
-    color: "var(--gmarketing)",
-    icon: "📈",
-    categories: [
-      { title: "Cat Shop Setup", color: "var(--gmarketing)", courses: [
-        { name: "Google Search Console", url: "https://www.youtube.com/playlist?list=PLKoqnv2vTMUOnQn-lNDfT38X9gA_CHxTo", subs: [
-          "What is Search Console & why it matters",
-          "Verify site ownership (domain/URL prefix)",
-          "Submit a sitemap",
-          "Use the URL Inspection tool",
-          "Read the Performance report (clicks, impressions, queries)",
-          "Fix indexing issues (Page Indexing report)",
-          "Check Core Web Vitals / mobile usability"
-        ] },
-        { name: "Google Analytics 4 (GA4)", url: "https://skillshop.withgoogle.com/", subs: [
-          "Understand the event-based data model",
-          "Set up a GA4 property & data stream",
-          "Read core reports (Acquisition, Engagement, Monetization)",
-          "Set up key events / conversions",
-          "Build a simple Exploration report",
-          "Get GA4 Certification"
-        ] },
-        { name: "Google Merchant Center", url: "https://www.classcentral.com/course/skillshop-shopping-ads-certification-86245", subs: [
-          "Create & verify a Merchant Center account",
-          "Understand Shopping ads policies",
-          "Build a product feed (required vs optional attributes)",
-          "Upload & troubleshoot the feed",
-          "Link Merchant Center to Google Ads",
-          "Get Shopping Ads Certification"
-        ] },
-        { name: "Google Ads", url: "https://skillshop.withgoogle.com/googleads/", subs: [
-          "Account structure: campaigns, ad groups, keywords",
-          "Keyword research & match types",
-          "Write Search ads (RSAs)",
-          "Bidding strategies & budgets",
-          "Set up a Shopping/Performance Max campaign",
-          "Read & optimize with performance data",
-          "Get Google Ads Search Certification"
-        ] }
-      ] }
-    ]
-  },
-  coursera: {
-    label: "Coursera Certs",
-    color: "var(--coursera)",
-    icon: "📜",
-    categories: [
-      { title: "Google Professional Certificates", color: "var(--coursera)", courses: [
-        { name: "Google AI", url: "https://www.coursera.org/professional-certificates/google-ai" },
-        { name: "Google Data Analytics", url: "https://www.coursera.org/professional-certificates/google-data-analytics" },
-        { name: "Google Advanced Data Analytics", url: "https://www.coursera.org/professional-certificates/google-advanced-data-analytics" },
-        { name: "Google Project Management", url: "https://www.coursera.org/professional-certificates/google-project-management" },
-        { name: "Google IT Support", url: "https://www.coursera.org/professional-certificates/google-it-support" },
-        { name: "Google IT Automation with Python", url: "https://www.coursera.org/professional-certificates/google-it-automation-with-python" },
-        { name: "Google Cybersecurity", url: "https://www.coursera.org/professional-certificates/google-cybersecurity" },
-        { name: "Google UX Design", url: "https://www.coursera.org/professional-certificates/google-ux-design" },
-        { name: "Google Digital Marketing & E-commerce", url: "https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce" },
-        { name: "Google Business Intelligence", url: "https://www.coursera.org/professional-certificates/google-business-intelligence" }
-      ] },
-      { title: "IBM Certificates", color: "var(--coursera-3)", courses: [
-        { name: "IBM Data Science", url: "https://www.coursera.org/professional-certificates/ibm-data-science" },
-        { name: "IBM Full Stack Software Developer", url: "https://www.coursera.org/professional-certificates/ibm-full-stack-javascript" },
-        { name: "IBM Data Analyst", url: "https://www.coursera.org/professional-certificates/ibm-data-analyst" },
-        { name: "IBM Cybersecurity Analyst", url: "https://www.coursera.org/professional-certificates/ibm-cybersecurity-analyst" }
-      ] },
-      { title: "Meta Certificates", color: "var(--coursera-2)", courses: [
-        { name: "Meta Front-End Developer", url: "https://www.coursera.org/professional-certificates/meta-front-end-developer" },
-        { name: "Meta Data Analyst", url: "https://www.coursera.org/professional-certificates/meta-data-analyst" }
-      ] },
-      { title: "Microsoft Certificates", color: "var(--coursera-4)", courses: [
-        { name: "Microsoft Power BI Data Analyst", url: "https://www.coursera.org/professional-certificates/microsoft-power-bi-data-analyst" },
-        { name: "Microsoft IT Support Specialist", url: "https://www.coursera.org/professional-certificates/microsoft-it-support-specialist" }
-      ] }
-    ]
-  }
+codedex: {
+label: "Codedex",
+color: "var(--codedex)",
+icon: "🧩",
+categories: [
+{ title: "Python & Data", color: "var(--codedex)", courses: [
+{ name: "Python (Beginner)", url: "https://www.codedex.io/python", subs: [
+"Setting Up", "Hello World", "Variables", "Control Flow", "Loops",
+"Checkpoint Project", "Lists", "Functions", "Classes & Objects",
+"Modules", "Final Project"
+] },
+{ name: "Intermediate Python", url: "https://www.codedex.io/intermediate-python", subs: [
+"Tuples, Dicts & Sets", "File I/O", "Functional Programming",
+"Unit Tests", "Final Project"
+] },
+{ name: "Pandas", url: "https://www.codedex.io/pandas", subs: [
+"Series & DataFrames", "Reading Data", "Cleaning Data",
+"Filtering & Sorting", "Grouping & Aggregating", "Final Project"
+] },
+{ name: "NumPy", url: "https://www.codedex.io/numpy", subs: [
+"Arrays", "Array Operations", "Indexing & Slicing",
+"Reshaping", "Final Project"
+] },
+{ name: "Matplotlib", url: "https://www.codedex.io/matplotlib", subs: [
+"Line Plots", "Bar & Scatter Plots", "Styling Charts",
+"Subplots", "Final Project"
+] },
+{ name: "Machine Learning", url: "https://www.codedex.io/machine-learning", subs: [
+"Intro to ML", "Regression", "Classification",
+"Model Evaluation", "Final Project"
+] },
+{ name: "GenAI", url: "https://www.codedex.io/gen-ai", subs: [
+"How LLMs Work", "Prompting", "Embeddings",
+"Limitations & Hallucinations", "Final Project"
+] },
+{ name: "SQL", url: "https://www.codedex.io/sql", subs: [
+"Querying", "Aggregate Functions", "Creating & Modifying Tables",
+"Joins", "Final Project"
+] }
+] },
+{ title: "Web Development", color: "var(--codedex-2)", courses: [
+{ name: "HTML", url: "https://www.codedex.io/html", subs: [
+"Setting Up", "Elemental", "Forms", "Semantic HTML", "Final Project"
+] },
+{ name: "CSS", url: "https://www.codedex.io/css", subs: [
+"Selectors Pt. 1", "Selectors Pt. 2", "Properties",
+"Box Model", "Layout & Flow", "Flexbox", "Final Project"
+] },
+{ name: "JavaScript", url: "https://www.codedex.io/javascript", subs: [
+"Hello Console", "Variables & Data Types", "Conditionals",
+"Loops", "Functions & Events", "Final Project"
+] },
+{ name: "Intermediate JavaScript", url: "https://www.codedex.io/intermediate-javascript", subs: [
+"ES6+ Features", "DOM Manipulation", "Async Programming",
+"Fetch & APIs", "Final Project"
+] },
+{ name: "React", url: "https://www.codedex.io/react", subs: [
+"Components", "Props & State", "Hooks",
+"Handling Events", "Final Project"
+] },
+{ name: "Node.js", url: "https://www.codedex.io/nodejs", subs: [
+"Intro to Node.js", "Modules", "Creating a Server", "Final Project"
+] },
+{ name: "p5.js", url: "https://www.codedex.io/p5js", subs: [
+"Canvas Basics", "Shapes & Color", "Animation",
+"Interactivity", "Final Project"
+] }
+] },
+{ title: "Tools & Fundamentals", color: "var(--codedex-3)", courses: [
+{ name: "Command Line", url: "https://www.codedex.io/command-line", subs: [
+"Navigating the Filesystem", "Managing Files",
+"Permissions", "Final Project"
+] },
+{ name: "Git & GitHub", url: "https://www.codedex.io/git-github", subs: [
+"Git Basics", "Commits", "Branches & Merge Conflicts",
+"Forks & Pull Requests", "Final Project"
+] },
+{ name: "GitHub Copilot", url: "https://www.codedex.io/github-copilot", subs: [
+"Getting Started", "Inline Suggestions", "Copilot Chat", "Final Project"
+] },
+{ name: "Data Structures & Algorithms", url: "https://www.codedex.io/data-structures-and-algorithms", subs: [
+"Arrays & Linked Lists", "Stacks & Queues", "Sorting",
+"Searching", "Trees", "Final Project"
+] },
+{ name: "UI/UX Design", url: "https://www.codedex.io/ui-ux", subs: [
+"Design Principles", "Wireframing", "Figma Basics",
+"Prototyping", "Final Project"
+] }
+] },
+{ title: "Other Languages & Game Dev", color: "var(--codedex-4)", courses: [
+{ name: "C#", url: "https://www.codedex.io/c-sharp", subs: [
+"Hello World", "Variables", "Control Flow",
+"Loops", "Methods", "Final Project"
+] },
+{ name: "C++", url: "https://www.codedex.io/c-plus-plus", subs: [
+"Hello World", "Variables & Types", "Control Flow",
+"Functions", "OOP & Data Structures", "Final Project"
+] },
+{ name: "Java", url: "https://www.codedex.io/java", subs: [
+"Hello World", "Variables", "Control Flow",
+"OOP", "Data Structures", "Final Project"
+] },
+{ name: "Lua", url: "https://www.codedex.io/lua", subs: [
+"Hello World", "Variables", "Control Flow",
+"Functions", "Roblox Studio Basics", "Final Project"
+] },
+{ name: "Phaser", url: "https://www.codedex.io/phaser", subs: [
+"Setting Up", "Sprites & Scenes", "Movement & Input",
+"Collisions", "Final Project"
+] }
+] }
+]
+},
+harvard: {
+label: "Harvard",
+color: "var(--harvard)",
+icon: "🎓",
+categories: [
+{ title: "CS50 Series", color: "var(--harvard)", courses: [
+{ name: "CS50", url: "https://cs50.harvard.edu/x/", subs: [
+"Week 0: Scratch", "Week 1: C", "Week 2: Arrays", "Week 3: Algorithms",
+"Week 4: Memory", "Week 5: Data Structures", "Week 6: Python",
+"Week 7: SQL", "Week 7: Artificial Intelligence", "Week 8: HTML, CSS, JavaScript",
+"Week 9: Flask", "Week 10: The End"
+] },
+{ name: "Python (CS50P)", url: "https://cs50.harvard.edu/python/", subs: [
+"Week 0: Functions, Variables", "Week 1: Conditionals", "Week 2: Loops",
+"Week 3: Exceptions", "Week 4: Libraries", "Week 5: Unit Tests",
+"Week 6: File I/O", "Week 7: Regular Expressions",
+"Week 8: Object-Oriented Programming", "Week 9: Et Cetera"
+] },
+{ name: "Web (CS50W)", url: "https://cs50.harvard.edu/web/", subs: [
+"Week 0: HTML, CSS", "Week 1: Git", "Week 2: Python", "Week 3: Django",
+"Week 4: SQL, Models, and Migrations", "Week 5: JavaScript",
+"Week 6: User Interfaces", "Week 7: Testing, CI/CD",
+"Week 8: Scalability and Security"
+] },
+{ name: "SQL (CS50 SQL)", url: "https://cs50.harvard.edu/sql/", subs: [
+"Week 0: Querying", "Week 1: Relating", "Week 2: Designing",
+"Week 3: Writing", "Week 4: Viewing", "Week 5: Optimizing"
+] },
+{ name: "AI (CS50 AI)", url: "https://cs50.harvard.edu/ai/", subs: [
+"Week 0: Search", "Week 1: Knowledge", "Week 2: Uncertainty",
+"Week 3: Optimization", "Week 4: Learning", "Week 5: Neural Networks",
+"Week 6: Language"
+] },
+{ name: "Cybersecurity (CS50 Cyber)", url: "https://cs50.harvard.edu/cybersecurity/", subs: [
+"Week 0: Securing Accounts", "Week 1: Securing Data",
+"Week 2: Securing Systems", "Week 3: Securing Software",
+"Week 4: Preserving Privacy"
+] }
+] }
+]
+},
+mit: {
+label: "MIT OCW",
+color: "var(--mit)",
+icon: "🏛️",
+categories: [
+{ title: "Open Courseware", color: "var(--mit)", courses: [
+{ name: "Intro to CS & Programming in Python (6.0001)", url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/", subs: [
+"Lec 1: What is Computation?", "Lec 2: Branching and Iteration",
+"Lec 3: String Manipulation, Bisection", "Lec 4: Decomposition, Functions",
+"Lec 5: Tuples, Lists, Mutability", "Lec 6: Recursion, Dictionaries",
+"Lec 7: Testing, Debugging, Exceptions", "Lec 8: Object Oriented Programming",
+"Lec 9: Python Classes and Inheritance", "Lec 10: Program Efficiency, Pt. 1",
+"Lec 11: Program Efficiency, Pt. 2", "Lec 12: Searching and Sorting"
+] },
+{ name: "Introduction to Algorithms (6.006)", url: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/", subs: [
+"Lec 1: Introduction", "Lec 2: Data Structures", "Lec 3: Sorting",
+"Lec 4: Hashing", "Lec 5: Linear Sorting", "Lec 6: Binary Trees, Pt. 1",
+"Lec 7: Binary Trees, Pt. 2: AVL", "Lec 8: Binary Heaps",
+"Lec 9: Breadth-First Search", "Lec 10: Depth-First Search",
+"Lec 11: Weighted Shortest Paths", "Lec 12: Bellman-Ford",
+"Lec 13: Dijkstra's Algorithm", "Lec 14: Johnson's Algorithm",
+"Lec 15: Recursive Algorithms", "Lec 16: Dynamic Programming"
+] },
+{ name: "Computer System Engineering (6.033)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/", subs: [
+"Week 1: Operating Systems Pt. I", "Week 2: Operating Systems Pt. II",
+"Week 3: Operating Systems Pt. III", "Week 4: Operating Systems Pt. IV",
+"Week 5: Networking Pt. I", "Week 6: Networking Pt. II",
+"Week 7: Networking Pt. III", "Week 8: Distributed Systems Pt. I",
+"Week 9: Distributed Systems Pt. II", "Week 10: Distributed Systems Pt. III",
+"Week 11: Security Pt. I", "Week 12: Security Pt. II"
+] },
+{ name: "Artificial Intelligence (6.034)", url: "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/", subs: [
+"Lec 1: Introduction and Scope", "Lec 2: Reasoning: Goal Trees",
+"Lec 3: Rule-Based Expert Systems", "Lec 4: Search: DFS, Hill Climbing, Beam",
+"Lec 5: Search: Optimal, Branch and Bound, A*", "Lec 6: Search: Games, Minimax, Alpha-Beta",
+"Lec 7: Constraints: Interpreting Line Drawings", "Lec 8: Constraints: Search, Domain Reduction",
+"Lec 9: Constraints: Visual Object Recognition", "Lec 10: Learning: Nearest Neighbors",
+"Lec 11: Learning: Identification Trees", "Lec 12: Neural Nets"
+] }
+] }
+]
+},
+duth: {
+label: "DUTH",
+color: "var(--duth)",
+icon: "🏫",
+categories: [
+{ title: "Coursework", color: "var(--duth)", courses: [
+"Calculus 1",
+"Calculus 2",
+"Algorithms and Data Structures",
+"Databases",
+"Java",
+"Object-Oriented Programming",
+"Scientific Computing",
+"Applied Mathematics",
+"Operating Systems",
+"Educational Research Methodology",
+"Compilers",
+"Advanced Digital Design Applications"
+] }
+]
+}
 };
 
 const STORAGE_KEY = "edu-tracker-state-v1";
 let state = {};
+
 try {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) state = JSON.parse(saved);
+const saved = localStorage.getItem(STORAGE_KEY);
+if (saved) state = JSON.parse(saved);
 } catch (e) { state = {}; }
 
 let activeSchool = "codedex";
-let expanded = {}; // tracks which courses are expanded, keyed by "school::courseName"
+let expanded = {};
 
-// Normalizes a course entry into { name, url, subs } whether it's a plain
-// string (Codedex, DUTH — no public course page / no subcategories) or an
-// object with a link and/or a subs list (Harvard, MIT, Coursera).
 function courseInfo(course) {
-  if (typeof course === "string") return { name: course, url: null, subs: null };
-  return { name: course.name, url: course.url || null, subs: course.subs || null };
+if (typeof course === "string") return { name: course, url: null, subs: null };
+return { name: course.name, url: course.url || null, subs: course.subs || null };
 }
 
 function saveState() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
 }
 
-// itemKey is either a course name (Codedex/DUTH, no subs) or "Course Name::Sub Name"
 function isDone(school, itemKey) {
-  return !!(state[school] && state[school][itemKey]);
+return !!(state[school] && state[school][itemKey]);
 }
 
 function toggle(school, itemKey) {
-  if (!state[school]) state[school] = {};
-  state[school][itemKey] = !state[school][itemKey];
-  saveState();
-  renderAll();
+if (!state[school]) state[school] = {};
+state[school][itemKey] = !state[school][itemKey];
+saveState();
+renderAll();
 }
 
 function toggleExpand(school, courseName) {
-  const key = school + "::" + courseName;
-  expanded[key] = !expanded[key];
-  renderMain();
+const key = school + "::" + courseName;
+expanded[key] = !expanded[key];
+renderMain();
 }
 
-// Returns { total, done, pct } for a single course. If it has subs, counts
-// subs; otherwise counts the course itself as one item (Codedex, DUTH).
 function courseStats(school, courseEntry) {
-  const { name, subs } = courseInfo(courseEntry);
-  if (subs && subs.length) {
-    let done = 0;
-    subs.forEach(sub => {
-      if (isDone(school, name + "::" + sub)) done++;
-    });
-    return { total: subs.length, done, pct: Math.round((done / subs.length) * 100) };
-  }
-  const done = isDone(school, name) ? 1 : 0;
-  return { total: 1, done, pct: done ? 100 : 0 };
+const { name, subs } = courseInfo(courseEntry);
+if (subs && subs.length) {
+let done = 0;
+subs.forEach(sub => {
+if (isDone(school, name + "::" + sub)) done++;
+});
+return { total: subs.length, done, pct: Math.round((done / subs.length) * 100) };
+}
+const done = isDone(school, name) ? 1 : 0;
+return { total: 1, done, pct: done ? 100 : 0 };
 }
 
 function schoolStats(key) {
-  const school = DATA[key];
-  let total = 0, done = 0;
-  school.categories.forEach(cat => {
-    cat.courses.forEach(c => {
-      const cs = courseStats(key, c);
-      total += cs.total;
-      done += cs.done;
-    });
-  });
-  return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
+const school = DATA[key];
+let total = 0, done = 0;
+school.categories.forEach(cat => {
+cat.courses.forEach(c => {
+const cs = courseStats(key, c);
+total += cs.total;
+done += cs.done;
+});
+});
+return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
 }
 
 function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, ch => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  }[ch]));
+return String(str).replace(/[&<>"']/g, ch => ({
+"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[ch]));
 }
 
 function ring(pct, color) {
-  const r = 30, c = 2 * Math.PI * r;
-  const offset = c - (pct / 100) * c;
-  return `
-    <div class="ring-wrap" style="--ring-color:${color}">
-      <svg width="70" height="70" viewBox="0 0 70 70">
-        <circle class="ring-bg" cx="35" cy="35" r="${r}"></circle>
-        <circle class="ring-fg" cx="35" cy="35" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${offset}"></circle>
-      </svg>
-      <div class="ring-pct">${pct}%</div>
-    </div>
-  `;
+const r = 30, c = 2 * Math.PI * r;
+const offset = c - (pct / 100) * c;
+return `
+<div class="ring-wrap" style="--ring-color:${color}">
+<svg width="70" height="70" viewBox="0 0 70 70">
+<circle class="ring-bg" cx="35" cy="35" r="${r}"></circle>
+<circle class="ring-fg" cx="35" cy="35" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${offset}"></circle>
+</svg>
+<div class="ring-pct">${pct}%</div>
+</div>
+`;
 }
 
 function renderSidebar() {
-  const el = document.getElementById("sidebarList");
-  el.innerHTML = Object.keys(DATA).map(key => {
-    const school = DATA[key];
-    const stats = schoolStats(key);
-    const active = key === activeSchool ? "active" : "";
-    return `
-      <button class="school-btn ${active}" style="--ring-color:${school.color}" data-school="${key}">
-        ${ring(stats.pct, school.color)}
-        <div>
-          <div class="school-name">${school.icon} ${school.label}</div>
-          <div class="school-meta">${stats.done}/${stats.total} courses</div>
-        </div>
-      </button>
-    `;
-  }).join("");
+const el = document.getElementById("sidebarList");
+el.innerHTML = Object.keys(DATA).map(key => {
+const school = DATA[key];
+const stats = schoolStats(key);
+const active = key === activeSchool ? "active" : "";
+return `
+<button class="school-btn ${active}" style="--ring-color:${school.color}" data-school="${key}">
+${ring(stats.pct, school.color)}
+<div>
+<div class="school-name">${school.icon} ${school.label}</div>
+<div class="school-meta">${stats.done}/${stats.total} courses</div>
+</div>
+</button>
+`;
+}).join("");
 }
 
 function renderMain() {
-  const school = DATA[activeSchool];
-  const stats = schoolStats(activeSchool);
-  const el = document.getElementById("mainPanel");
-  el.style.setProperty("--accent", school.color);
+const school = DATA[activeSchool];
+const stats = schoolStats(activeSchool);
+const el = document.getElementById("mainPanel");
+el.style.setProperty("--accent", school.color);
 
-  let html = `
-    <div class="main-header">
-      <h2>${school.icon} ${school.label}</h2>
-      <div class="overall-pct"><span>${stats.pct}%</span> complete &middot; ${stats.done}/${stats.total}</div>
-    </div>
-    <div class="progress-track"><div class="progress-fill" style="width:${stats.pct}%"></div></div>
-  `;
+let html = `
+<div class="main-header">
+<h2>${school.icon} ${school.label}</h2>
+<div class="overall-pct"><span>${stats.pct}%</span> complete &middot; ${stats.done}/${stats.total}</div>
+</div>
+<div class="progress-track"><div class="progress-fill" style="width:${stats.pct}%"></div></div>
+`;
 
-  school.categories.forEach(cat => {
-    html += `<div class="category">`;
-    if (school.categories.length > 1) {
-      html += `<div class="category-title" style="color:${cat.color}">${escapeHtml(cat.title)}</div>`;
-    }
-    html += `<div class="course-grid">`;
+school.categories.forEach(cat => {
+html += `<div class="category">`;
+if (school.categories.length > 1) {
+html += `<div class="category-title" style="color:${cat.color}">${escapeHtml(cat.title)}</div>`;
+}
+html += `<div class="course-grid">`;
 
-    cat.courses.forEach(courseEntry => {
-      const { name: course, url, subs } = courseInfo(courseEntry);
+cat.courses.forEach(courseEntry => {
+const { name: course, url, subs } = courseInfo(courseEntry);
+const nameMarkup = url
+? `<a class="course-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${escapeHtml(course)}</a>`
+: escapeHtml(course);
 
-      if (subs && subs.length) {
-        // Expandable course with its own sub-checklist (Harvard, MIT only)
-        const cs = courseStats(activeSchool, courseEntry);
-        const done = cs.done === cs.total;
-        const expandKey = activeSchool + "::" + course;
-        const isOpen = !!expanded[expandKey];
-        const nameMarkup = url
-          ? `<a class="course-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${escapeHtml(course)}</a>`
-          : escapeHtml(course);
+if (subs && subs.length) {
+const cs = courseStats(activeSchool, courseEntry);
+const done = cs.done === cs.total;
+const expandKey = activeSchool + "::" + course;
+const isOpen = !!expanded[expandKey];
 
-        html += `
-          <div class="course-block ${done ? 'done' : ''} ${isOpen ? 'expanded' : ''}" style="--row-accent:${cat.color}">
-            <div class="course-row" data-expand-course="${escapeHtml(course)}">
-              <div class="checkbox subcount">${cs.done}/${cs.total}</div>
-              <div class="course-name">${nameMarkup}</div>
-              <div class="chevron ${isOpen ? 'open' : ''}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </div>
-            </div>
-            <div class="sub-list ${isOpen ? 'open' : ''}">
-              ${subs.map(sub => {
-                const subKey = course + "::" + sub;
-                const subDone = isDone(activeSchool, subKey);
-                return `
-                  <div class="sub-row ${subDone ? 'done' : ''}" data-sub-course="${escapeHtml(course)}" data-sub-name="${escapeHtml(sub)}">
-                    <div class="checkbox sub-checkbox">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                    <div class="sub-name">${escapeHtml(sub)}</div>
-                  </div>
-                `;
-              }).join("")}
-            </div>
-          </div>
-        `;
-      } else {
-        // Simple single-checkbox course. May carry a link (Coursera certs) or
-        // be plain text (Codedex, DUTH).
-        const done = isDone(activeSchool, course);
-        const nameMarkup = url
-          ? `<a class="course-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${escapeHtml(course)}</a>`
-          : escapeHtml(course);
-        html += `
-          <div class="course-row simple ${done ? 'done' : ''}" style="--row-accent:${cat.color}" data-course="${escapeHtml(course)}">
-            <div class="checkbox">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <div class="course-name">${nameMarkup}</div>
-          </div>
-        `;
-      }
-    });
+html += `
+<div class="course-block ${done ? 'done' : ''} ${isOpen ? 'expanded' : ''}" style="--row-accent:${cat.color}">
+<div class="course-row" data-expand-course="${escapeHtml(course)}">
+<div class="checkbox subcount">${cs.done}/${cs.total}</div>
+<div class="course-name">${nameMarkup}</div>
+<div class="chevron ${isOpen ? 'open' : ''}">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+</div>
+</div>
+<div class="sub-list ${isOpen ? 'open' : ''}">
+${subs.map(sub => {
+const subKey = course + "::" + sub;
+const subDone = isDone(activeSchool, subKey);
+return `
+<div class="sub-row ${subDone ? 'done' : ''}" data-sub-course="${escapeHtml(course)}" data-sub-name="${escapeHtml(sub)}">
+<div class="checkbox sub-checkbox">
+<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<div class="sub-name">${escapeHtml(sub)}</div>
+</div>
+`;
+}).join("")}
+</div>
+</div>
+`;
+} else {
+const done = isDone(activeSchool, course);
+html += `
+<div class="course-row simple ${done ? 'done' : ''}" style="--row-accent:${cat.color}" data-course="${escapeHtml(course)}">
+<div class="checkbox">
+<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<div class="course-name">${nameMarkup}</div>
+</div>
+`;
+}
+});
 
-    html += `</div></div>`;
-  });
+html += `</div></div>`;
+});
 
-  html += `<button class="reset-btn" data-reset="${activeSchool}">Reset ${school.label} progress</button>`;
-  el.innerHTML = html;
+html += `<button class="reset-btn" data-reset="${activeSchool}">Reset ${school.label} progress</button>`;
+el.innerHTML = html;
 }
 
 function setActive(key) {
-  activeSchool = key;
-  renderAll();
+activeSchool = key;
+renderAll();
 }
 
 function resetSchool(key) {
-  if (confirm(`Reset all progress for ${DATA[key].label}?`)) {
-    state[key] = {};
-    saveState();
-    renderAll();
-  }
+if (confirm(`Reset all progress for ${DATA[key].label}?`)) {
+state[key] = {};
+saveState();
+renderAll();
+}
 }
 
 function renderCountdown() {
-  const target = new Date(2026, 6, 20, 0, 0, 0); // July 20, 2026 (month is 0-indexed)
-  const now = new Date();
-  const diffMs = target - now;
-  const el = document.getElementById("countdownCard");
-  if (diffMs <= 0) {
-    el.innerHTML = `
-      <div class="countdown-card">
-        <div class="countdown-label">⏳ Jul 20</div>
-        <div class="countdown-done">🎉 Reached!</div>
-      </div>
-    `;
-    return;
-  }
-  const days = Math.ceil(diffMs / 86400000);
-  el.innerHTML = `
-    <div class="countdown-card">
-      <div class="countdown-label">⏳ Jul 20</div>
-      <div class="countdown-big">${days}</div>
-      <div class="countdown-unit-label">days left</div>
-    </div>
-  `;
+const target = new Date(2026, 6, 20, 0, 0, 0);
+const now = new Date();
+const diffMs = target - now;
+const el = document.getElementById("countdownCard");
+
+if (diffMs <= 0) {
+el.innerHTML = `
+<div class="countdown-card">
+<div class="countdown-label">⏳ Jul 20</div>
+<div class="countdown-done">🎉 Reached!</div>
+</div>
+`;
+return;
+}
+
+const days = Math.ceil(diffMs / 86400000);
+el.innerHTML = `
+<div class="countdown-card">
+<div class="countdown-label">⏳ Jul 20</div>
+<div class="countdown-big">${days}</div>
+<div class="countdown-unit-label">days left</div>
+</div>
+`;
 }
 
 function renderOverallProgress() {
-  let total = 0, done = 0;
-  Object.keys(DATA).forEach(key => {
-    const stats = schoolStats(key);
-    total += stats.total;
-    done += stats.done;
-  });
-  const pct = total ? Math.round((done / total) * 100) : 0;
-  const el = document.getElementById("overallCard");
-  el.innerHTML = `
-    <div class="countdown-card overall-card">
-      <div class="countdown-label">📊 Overall</div>
-      <div class="countdown-big">${pct}%</div>
-      <div class="countdown-unit-label">${done}/${total} courses</div>
-    </div>
-  `;
+let total = 0, done = 0;
+Object.keys(DATA).forEach(key => {
+const stats = schoolStats(key);
+total += stats.total;
+done += stats.done;
+});
+
+const pct = total ? Math.round((done / total) * 100) : 0;
+const el = document.getElementById("overallCard");
+el.innerHTML = `
+<div class="countdown-card overall-card">
+<div class="countdown-label">📊 Overall</div>
+<div class="countdown-big">${pct}%</div>
+<div class="countdown-unit-label">${done}/${total} courses</div>
+</div>
+`;
 }
 
 function renderAll() {
-  renderCountdown();
-  renderOverallProgress();
-  renderSidebar();
-  renderMain();
+renderCountdown();
+renderOverallProgress();
+renderSidebar();
+renderMain();
 }
 
 document.getElementById("sidebarList").addEventListener("click", (e) => {
-  const btn = e.target.closest(".school-btn");
-  if (btn) setActive(btn.dataset.school);
+const btn = e.target.closest(".school-btn");
+if (btn) setActive(btn.dataset.school);
 });
 
 document.getElementById("mainPanel").addEventListener("click", (e) => {
-  const subRow = e.target.closest(".sub-row");
-  if (subRow) {
-    const course = subRow.dataset.subCourse;
-    const sub = subRow.dataset.subName;
-    toggle(activeSchool, course + "::" + sub);
-    return;
-  }
-  const expandRow = e.target.closest("[data-expand-course]");
-  if (expandRow) {
-    toggleExpand(activeSchool, expandRow.dataset.expandCourse);
-    return;
-  }
-  const simpleRow = e.target.closest(".course-row.simple");
-  if (simpleRow) { toggle(activeSchool, simpleRow.dataset.course); return; }
-  const resetBtn = e.target.closest(".reset-btn");
-  if (resetBtn) resetSchool(resetBtn.dataset.reset);
+const subRow = e.target.closest(".sub-row");
+if (subRow) {
+const course = subRow.dataset.subCourse;
+const sub = subRow.dataset.subName;
+toggle(activeSchool, course + "::" + sub);
+return;
+}
+
+const expandRow = e.target.closest("[data-expand-course]");
+if (expandRow) {
+toggleExpand(activeSchool, expandRow.dataset.expandCourse);
+return;
+}
+
+const simpleRow = e.target.closest(".course-row.simple");
+if (simpleRow) { toggle(activeSchool, simpleRow.dataset.course); return; }
+
+const resetBtn = e.target.closest(".reset-btn");
+if (resetBtn) resetSchool(resetBtn.dataset.reset);
 });
 
 renderAll();
 setInterval(renderCountdown, 1000 * 60 * 5);
-
-// Fullscreen toggle
-const fsBtn = document.getElementById("fullscreenBtn");
-const fsLabel = document.getElementById("fsLabel");
-const fsIcon = document.getElementById("fsIcon");
-const ENTER_ICON = '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>';
-const EXIT_ICON = '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>';
-fsBtn.addEventListener("click", () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(() => {});
-  } else {
-    document.exitFullscreen();
-  }
-});
-document.addEventListener("fullscreenchange", () => {
-  if (document.fullscreenElement) {
-    fsLabel.textContent = "Exit";
-    fsIcon.innerHTML = EXIT_ICON;
-  } else {
-    fsLabel.textContent = "Fullscreen";
-    fsIcon.innerHTML = ENTER_ICON;
-  }
-});
 </script>
 </body>
 </html>
