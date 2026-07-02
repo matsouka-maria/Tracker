@@ -864,10 +864,10 @@ const STORAGE_KEY = "tracker-state";
 let state = {};
 let saveTimer = null;
 
-async function loadState() {
+function loadState() {
 try {
-const result = await window.storage.get(STORAGE_KEY);
-if (result && result.value) state = JSON.parse(result.value);
+const saved = localStorage.getItem(STORAGE_KEY);
+if (saved) state = JSON.parse(saved);
 } catch (e) {
 state = {};
 }
@@ -885,10 +885,10 @@ el._hideTimer = setTimeout(() => el.classList.remove("show"), 1200);
 function saveState() {
 showSyncIndicator("Saving...");
 clearTimeout(saveTimer);
-saveTimer = setTimeout(async () => {
+saveTimer = setTimeout(() => {
 try {
-await window.storage.set(STORAGE_KEY, JSON.stringify(state));
-showSyncIndicator("Saved ✓");
+localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+showSyncIndicator("Saved \u2713");
 } catch (e) {
 showSyncIndicator("Save failed");
 }
