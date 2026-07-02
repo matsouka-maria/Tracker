@@ -453,6 +453,23 @@ background: var(--panel);
 .fullscreen-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 .fullscreen-btn #fsLabel { display: none; }
 
+.sync-indicator {
+position: fixed;
+top: 14px;
+left: 14px;
+z-index: 100;
+font-size: 12px;
+font-weight: 600;
+padding: 6px 12px;
+border-radius: 8px;
+background: var(--panel-2);
+border: 1px solid var(--border);
+color: var(--text-faint);
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+.sync-indicator.show { opacity: 1; }
+
 @media (min-width: 600px) {
 .fullscreen-btn {
 top: 18px;
@@ -674,6 +691,7 @@ height: 13px;
 <svg id="fsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
 <span id="fsLabel">Fullscreen</span>
 </button>
+<div class="sync-indicator" id="syncIndicator">Saving...</div>
 <div class="app">
 <aside class="sidebar">
 <h1>📚 Learning Tracker</h1>
@@ -682,7 +700,7 @@ height: 13px;
 <div id="overallCard"></div>
 </div>
 <div id="sidebarList"></div>
-<div class="sidebar-footer">Progress saved automatically in this browser.</div>
+<div class="sidebar-footer">Progress saved to your account — syncs across sessions.</div>
 </aside>
 <main class="main" id="mainPanel"></main>
 </div>
@@ -1059,13 +1077,40 @@ categories: [
 }
 };
 
-const STORAGE_KEY = "edu-tracker-state-v1";
+const STORAGE_KEY = "tracker-state";
 let state = {};
+let saveTimer = null;
 
+async function loadState() {
 try {
-const saved = localStorage.getItem(STORAGE_KEY);
-if (saved) state = JSON.parse(saved);
-} catch (e) { state = {}; }
+const result = await window.storage.get(STORAGE_KEY);
+if (result && result.value) state = JSON.parse(result.value);
+} catch (e) {
+state = {};
+}
+renderAll();
+}
+
+function showSyncIndicator(text) {
+const el = document.getElementById("syncIndicator");
+el.textContent = text;
+el.classList.add("show");
+clearTimeout(el._hideTimer);
+el._hideTimer = setTimeout(() => el.classList.remove("show"), 1200);
+}
+
+function saveState() {
+showSyncIndicator("Saving...");
+clearTimeout(saveTimer);
+saveTimer = setTimeout(async () => {
+try {
+await window.storage.set(STORAGE_KEY, JSON.stringify(state));
+showSyncIndicator("Saved ✓");
+} catch (e) {
+showSyncIndicator("Save failed");
+}
+}, 300);
+}
 
 let activeSchool = "codedex";
 let expanded = {};
@@ -1073,10 +1118,6 @@ let expanded = {};
 function courseInfo(course) {
 if (typeof course === "string") return { name: course, url: null, subs: null };
 return { name: course.name, url: course.url || null, subs: course.subs || null };
-}
-
-function saveState() {
-try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
 }
 
 function isDone(school, itemKey) {
@@ -1334,7 +1375,7 @@ const resetBtn = e.target.closest(".reset-btn");
 if (resetBtn) resetSchool(resetBtn.dataset.reset);
 });
 
-renderAll();
+loadState();
 setInterval(renderCountdown, 1000 * 60 * 5);
 
 const fsBtn = document.getElementById("fullscreenBtn");
